@@ -124,7 +124,7 @@ internal class BlockStateTest {
 
   @Test
   fun `multipart block state with two models, each applied under different conditions`() {
-    assert(TestUtil.jsonEquals(
+    TestUtil.assertJsonEquals(
       """
         {
           "multipart": [
@@ -153,12 +153,12 @@ internal class BlockStateTest {
         .applyWhenAll(model1, "north=true, east=true", "west=false")
         .applyWhenAny(model2, "north=false", "east=false")
         .generate()
-    ))
+    )
   }
 
   @Test
   fun `multipart block state with mixed condition types`() {
-    assert(TestUtil.jsonEquals(
+    TestUtil.assertJsonEquals(
       """
         {
           "multipart": [
@@ -186,6 +186,6 @@ internal class BlockStateTest {
         .applyWhenAny(model2, "north=up|side", "west=up")
         .applyWhen(model3, "north=up")
         .generate()
-    ))
+    )
   }
 }
