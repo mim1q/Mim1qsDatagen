@@ -22,12 +22,12 @@ class MultipartBlockState : BlockState() {
   private val entries = mutableListOf<Entry>()
 
   /**
-   * Adds a new always-applied Multipart entry
+   * Adds a new Multipart entry
    *
    * @param entry the entry to add
    * @return this [MultipartBlockState]
    */
-  fun apply(entry: Entry): MultipartBlockState {
+  fun addEntry(entry: Entry): MultipartBlockState {
     entries.add(entry)
     return this
   }
@@ -39,7 +39,7 @@ class MultipartBlockState : BlockState() {
    * @return this [MultipartBlockState]
    */
   fun apply(model: BlockStateModel): MultipartBlockState {
-    apply(Entry(listOf(), Entry.ConditionType.NONE, model))
+    addEntry(Entry(listOf(), Entry.ConditionType.NONE, model))
     return this
   }
 
