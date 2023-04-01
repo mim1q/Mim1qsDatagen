@@ -18,7 +18,7 @@ import com.google.gson.JsonObject
  *
  * @see <a href="https://minecraft.fandom.com/wiki/Tutorials/Models#Block_states">Minecraft Wiki for Block States</a
  */
-class MultipartBlockState : BlockState() {
+class MultipartBlockState internal constructor() : BlockState() {
   private val entries = mutableListOf<Entry>()
 
   /**
@@ -39,7 +39,7 @@ class MultipartBlockState : BlockState() {
    * @return this [MultipartBlockState]
    */
   fun apply(model: BlockStateModel): MultipartBlockState {
-    addEntry(Entry(listOf(), Entry.ConditionType.NONE, model))
+    addEntry(Entry(listOf(), Entry.ConditionType.ALWAYS, model))
     return this
   }
 
@@ -50,7 +50,7 @@ class MultipartBlockState : BlockState() {
    * @return this [MultipartBlockState]
    */
   fun applyWhen(model: BlockStateModel, condition: String): MultipartBlockState {
-    entries.add(Entry(listOf(condition), Entry.ConditionType.SINGLE, model))
+    entries.add(Entry(listOf(condition), Entry.ConditionType.WHEN, model))
     return this
   }
 
@@ -63,7 +63,7 @@ class MultipartBlockState : BlockState() {
    * @return this [MultipartBlockState]
    */
   fun applyWhenAll(model: BlockStateModel, vararg conditions: String): MultipartBlockState {
-    entries.add(Entry(conditions.asList(), Entry.ConditionType.ALL, model))
+    entries.add(Entry(conditions.asList(), Entry.ConditionType.WHEN_ALL, model))
     return this
   }
 
@@ -76,7 +76,7 @@ class MultipartBlockState : BlockState() {
    * @return this [MultipartBlockState]
    */
   fun applyWhenAny(model: BlockStateModel, vararg conditions: String): MultipartBlockState {
-    entries.add(Entry(conditions.asList(), Entry.ConditionType.ANY, model))
+    entries.add(Entry(conditions.asList(), Entry.ConditionType.WHEN_ANY, model))
     return this
   }
 
@@ -105,12 +105,12 @@ class MultipartBlockState : BlockState() {
   ) : BlockStateEntry(firstModel, *otherModels) {
     override fun addToParent(parent: JsonObject) {
       when (conditionType) {
-        ConditionType.NONE -> {}
-        ConditionType.SINGLE -> {
+        ConditionType.ALWAYS -> {}
+        ConditionType.WHEN -> {
           if (conditions.isEmpty()) throw IllegalStateException("No conditions have been provided")
           parent.add("when", generateCondition(conditions[0]))
         }
-        ConditionType.ALL, ConditionType.ANY -> {
+        ConditionType.WHEN_ALL, ConditionType.WHEN_ANY -> {
           if (conditions.size <= 1) throw IllegalStateException("Less than two conditions have been provided")
           parent.add("when", JsonObject().apply {
             add(conditionType.key, JsonArray().apply { conditions.forEach { add(generateCondition(it)) } })
@@ -146,19 +146,19 @@ class MultipartBlockState : BlockState() {
       /**
        * Always applied
        */
-      NONE(null),
+      ALWAYS(null),
       /**
        * Applied when the given condition is satisfied
        */
-      SINGLE(null),
+      WHEN(null),
       /**
        * Applied when any of the given conditions is satisfied
        */
-      ANY("OR"),
+      WHEN_ANY("OR"),
       /**
        * Applied when all given conditions are satisfied
        */
-      ALL("AND")
+      WHEN_ALL("AND")
     }
   }
 }
