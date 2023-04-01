@@ -8,4 +8,4 @@
  */
 
 rootProject.name = "mim1qsdatagen"
-include("base", "cli")
+include("base")
