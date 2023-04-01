@@ -6,6 +6,8 @@ import com.google.gson.JsonObject
 
 /**
  * A class representing one entry in a Block State file
+ * @param firstModel model to use for the entry
+ * @param otherModels (optional) additional models
  */
 abstract class BlockStateEntry(
   firstModel: BlockStateModel,
