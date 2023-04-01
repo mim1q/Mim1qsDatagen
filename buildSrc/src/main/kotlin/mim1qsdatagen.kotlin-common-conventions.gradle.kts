@@ -29,6 +29,9 @@ dependencies {
   // Align versions of all Kotlin components
   implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
 
+  // GSON for JSON file handling
+  implementation("com.google.code.gson:gson:2.10.1")
+
   // Use JUnit Jupiter for testing.
   testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
 }
