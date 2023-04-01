@@ -1,8 +1,8 @@
 package mim1qsdatagen.base.blockstate
 
-import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import mim1qsdatagen.base.TestUtil
 import mim1qsdatagen.base.data.blockstate.BlockStateModel
 import mim1qsdatagen.base.data.blockstate.MultipartBlockState
 import mim1qsdatagen.base.data.blockstate.VariantBlockState
@@ -11,9 +11,9 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
 internal class BlockStateTest {
-  private val gson = GsonBuilder().setPrettyPrinting().create()
   private val model1 = BlockStateModel("model1")
   private val model2 = BlockStateModel("model2")
+  private val model3 = BlockStateModel("model3")
 
   @Test
   fun `variant block state with no variants throws an exception`() {
@@ -124,50 +124,68 @@ internal class BlockStateTest {
 
   @Test
   fun `multipart block state with two models, each applied under different conditions`() {
-    assertEquals(
+    assert(TestUtil.jsonEquals(
       """
         {
           "multipart": [
             {
               "when": {
                 "AND": [
-                  {
-                    "north": "true",
-                    "east": "true"
-                  },
-                  {
-                    "west": "false"
-                  }
+                  { "north": "true", "east": "true" },
+                  { "west": "false" }
                 ]
               },
-              "apply": {
-                "model": "model1"
-              }
+              "apply": { "model": "model1" }
             },
             {
               "when": {
                 "OR": [
-                  {
-                    "north": "false"
-                  },
-                  {
-                    "east": "false"
-                  }
+                  { "north": "false" },
+                  { "east": "false" }
                 ]
               },
-              "apply": {
-                "model": "model2"
-              }
+              "apply": { "model": "model2" }
             }
           ]
         }
       """.trimIndent(),
-      gson.toJson(
-        MultipartBlockState()
-          .applyWhenAll(model1, "north=true, east=true", "west=false")
-          .applyWhenAny(model2, "north=false", "east=false")
-          .generate()
-      )
-    )
+      MultipartBlockState()
+        .applyWhenAll(model1, "north=true, east=true", "west=false")
+        .applyWhenAny(model2, "north=false", "east=false")
+        .generate()
+    ))
+  }
+
+  @Test
+  fun `multipart block state with mixed condition types`() {
+    assert(TestUtil.jsonEquals(
+      """
+        {
+          "multipart": [
+            {
+              "apply": { "model": "model1" }
+            },
+            {
+              "when": {
+                "OR": [
+                  { "north": "up|side" },
+                  { "west": "up" }
+                ]
+              },
+              "apply": { "model": "model2" }
+            },
+            {
+              "when": { "north": "up" },
+              "apply": { "model": "model3" }
+            }
+          ]
+        }
+      """.trimIndent(),
+      MultipartBlockState()
+        .apply(model1)
+        .applyWhenAny(model2, "north=up|side", "west=up")
+        .applyWhen(model3, "north=up")
+        .generate()
+    ))
   }
 }
