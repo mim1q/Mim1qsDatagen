@@ -1,5 +1,6 @@
 package mim1qsdatagen.base.data.blockstate
 
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 
 /**
@@ -24,9 +25,9 @@ class BlockStateModel(
    * Generates the representation of this model
    *
    * @param useWeight whether the result should contain the `weight` field
-   * @return the representation of this model as a [JsonObject]
+   * @return the representation of this model as a [JsonElement]
    */
-  fun generate(useWeight: Boolean): JsonObject {
+  fun generate(useWeight: Boolean): JsonElement {
     return JsonObject().apply {
       addProperty("model", model)
       if (xRot != Rotation.NONE) addProperty("x", xRot.value)

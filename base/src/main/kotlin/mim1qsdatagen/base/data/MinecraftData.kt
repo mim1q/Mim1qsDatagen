@@ -1,6 +1,6 @@
 package mim1qsdatagen.base.data
 
-import com.google.gson.JsonObject
+import com.google.gson.JsonElement
 import java.nio.file.Path
 
 /**
@@ -12,7 +12,7 @@ interface MinecraftData {
    *
    * @return the generated JSON representation of the data
    */
-  fun generate(): JsonObject
+  fun generate(): JsonElement
 
   /**
    * Returns the output path of the given data type
