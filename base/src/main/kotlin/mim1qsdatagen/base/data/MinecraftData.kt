@@ -9,13 +9,14 @@ interface MinecraftData {
   /**
    * Generates the text that is going to be used in the created file
    *
-   * @return the content of the file
+   * @return the generated string representation of the data
    */
   fun generate(): String
 
   /**
    * @param baseDir the base directory of the generated project
+   * @param namespace the namespace of the project
    * @return the path of the directory in which the file should be generated
    */
-  fun getDefaultOutputPath(baseDir: Path): Path
+  fun getDefaultOutputPath(baseDir: Path, namespace: String): Path
 }
