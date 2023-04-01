@@ -13,11 +13,11 @@ import com.google.gson.JsonObject
  * @constructor returns the model with the given properties
  */
 class BlockStateModel(
-  val model: String,
-  val xRot: Rotation = Rotation.NONE,
-  val yRot: Rotation = Rotation.NONE,
-  val uvlock: Boolean = false,
-  val weight: Int = 1
+  private val model: String,
+  private val xRot: Rotation = Rotation.NONE,
+  private val yRot: Rotation = Rotation.NONE,
+  private val uvlock: Boolean = false,
+  private val weight: Int = 1
 ) {
 
   /**
