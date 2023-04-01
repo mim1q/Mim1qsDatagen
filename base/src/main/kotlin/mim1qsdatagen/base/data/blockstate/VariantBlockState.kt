@@ -4,7 +4,13 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 
 /**
- * "Variant" type of Block State files, where each key corresponds to a model
+ * "Variant" type of Block State files, where each key corresponds to a model. Variants are provided in the following
+ * string format:
+ *
+ * List of state keys connected with corresponding values by an `=` sign, separated by commas. Spaces are ignored
+ * "facing=east, lit=false"
+ *
+ * @see <a href="https://minecraft.fandom.com/wiki/Tutorials/Models#Block_states">Minecraft Wiki for Block States</a
  */
 class VariantBlockState : BlockState() {
   /**
@@ -54,7 +60,7 @@ class VariantBlockState : BlockState() {
 
   /**
    * [VariantBlockState]-specific implementation of [BlockStateEntry]
-   * @param key the key of the variant entry
+   * @param key the key of the variant entry (spaces are removed)
    * @param firstModel model to use for the entry
    * @param otherModels (optional) additional models
    */
@@ -64,7 +70,7 @@ class VariantBlockState : BlockState() {
     vararg otherModels: BlockStateModel
   ) : BlockStateEntry(firstModel, *otherModels) {
     override fun addToParent(parent: JsonObject) {
-      parent.add(key, generateModelElement())
+      parent.add(key.replace(" ", ""), generateModelElement())
     }
   }
 }
