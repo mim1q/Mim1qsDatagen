@@ -49,6 +49,28 @@ class ParentedModel internal constructor(
     return baseDir.resolve("assets/$namespace/models/${type.folderName}/")
   }
 
+  companion object {
+    /**
+     * Create a new Parented Model of an item
+     *
+     * @param parent the parent model
+     * @return a new instance of a [ParentedModel] with the [Type.ITEM] type property
+     */
+    fun item(parent: String): ParentedModel {
+      return ParentedModel(Type.ITEM, parent)
+    }
+
+    /**
+     * Create a new Parented Model of a block
+     *
+     * @param parent the parent model
+     * @return a new instance of a [ParentedModel] with the [Type.BLOCK] type property
+     */
+    fun block(parent: String): ParentedModel {
+      return ParentedModel(Type.BLOCK, parent)
+    }
+  }
+
   /**
    * Model types, which determine whether a model should go into the items or blocks folder
    */
