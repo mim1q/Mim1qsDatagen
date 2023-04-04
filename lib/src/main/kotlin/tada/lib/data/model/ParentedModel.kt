@@ -2,11 +2,11 @@ package tada.lib.data.model
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import tada.lib.data.MinecraftData
+import tada.lib.data.MinecraftResource
 import java.nio.file.Path
 
 /**
- * A class representing a Minecraft model of a block or item
+ * A class representing a model of a block or item
  *
  * @param type the type of the model (either [Type.BLOCK] or [Type.ITEM]])
  * @param parent the parent model
@@ -14,7 +14,7 @@ import java.nio.file.Path
 class ParentedModel internal constructor(
   private val type: Type,
   private val parent: String
-) : MinecraftData {
+) : MinecraftResource {
   /**
    * Map of the texture overrides for this model, where each key is the name and the value is the texture path
    */

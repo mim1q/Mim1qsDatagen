@@ -6,7 +6,7 @@ import java.nio.file.Path
 /**
  * Interface that represents a Minecraft asset or data file
  */
-interface MinecraftData {
+interface MinecraftResource {
   /**
    * Generates the content that is going to be used in the created file
    *

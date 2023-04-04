@@ -1,12 +1,12 @@
 package tada.lib.data.blockstate
 
-import tada.lib.data.MinecraftData
+import tada.lib.data.MinecraftResource
 import java.nio.file.Path
 
 /**
  * Base class for Block State data
  */
-interface BlockState : MinecraftData {
+interface BlockState : MinecraftResource {
   override fun getDefaultOutputPath(baseDir: Path, namespace: String): Path {
     return baseDir.resolve("assets/${namespace}/blockstates/")
   }
