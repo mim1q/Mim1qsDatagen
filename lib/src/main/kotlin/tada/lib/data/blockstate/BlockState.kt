@@ -1,6 +1,6 @@
-package mim1qsdatagen.base.data.blockstate
+package tada.lib.data.blockstate
 
-import mim1qsdatagen.base.data.MinecraftData
+import tada.lib.data.MinecraftData
 import java.nio.file.Path
 
 /**

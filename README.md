@@ -1,4 +1,4 @@
-# Mim1q's Datagen
+# Ta-Da - Mim1q's Datagen Toolkit
 
 A utility Kotlin library for generating data for your Minecraft mods and datapacks
 

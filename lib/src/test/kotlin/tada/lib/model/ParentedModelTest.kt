@@ -1,7 +1,7 @@
-package mim1qsdatagen.base.model
+package tada.lib.model
 
-import mim1qsdatagen.base.TestUtil
-import mim1qsdatagen.base.data.model.ParentedModel
+import tada.lib.TestUtil
+import tada.lib.data.model.ParentedModel
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.nio.file.Path

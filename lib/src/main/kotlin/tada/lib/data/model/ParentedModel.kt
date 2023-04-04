@@ -1,8 +1,8 @@
-package mim1qsdatagen.base.data.model
+package tada.lib.data.model
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import mim1qsdatagen.base.data.MinecraftData
+import tada.lib.data.MinecraftData
 import java.nio.file.Path
 
 /**

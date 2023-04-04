@@ -1,7 +1,7 @@
-package mim1qsdatagen.base.blockstate
+package tada.lib.blockstate
 
 import com.google.gson.JsonObject
-import mim1qsdatagen.base.data.blockstate.BlockStateModel
+import tada.lib.data.blockstate.BlockStateModel
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

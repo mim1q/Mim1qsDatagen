@@ -1,4 +1,4 @@
-package mim1qsdatagen.base.data
+package tada.lib.data
 
 import com.google.gson.JsonElement
 import java.nio.file.Path

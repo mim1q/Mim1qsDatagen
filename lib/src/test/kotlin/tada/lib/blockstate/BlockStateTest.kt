@@ -1,12 +1,12 @@
-package mim1qsdatagen.base.blockstate
+package tada.lib.blockstate
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import mim1qsdatagen.base.TestUtil
-import mim1qsdatagen.base.data.blockstate.BlockState
-import mim1qsdatagen.base.data.blockstate.BlockStateModel
-import mim1qsdatagen.base.data.blockstate.MultipartBlockState
-import mim1qsdatagen.base.data.blockstate.VariantBlockState
+import tada.lib.TestUtil
+import tada.lib.data.blockstate.BlockState
+import tada.lib.data.blockstate.BlockStateModel
+import tada.lib.data.blockstate.MultipartBlockState
+import tada.lib.data.blockstate.VariantBlockState
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows

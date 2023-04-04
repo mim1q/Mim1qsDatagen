@@ -1,4 +1,4 @@
-package mim1qsdatagen.base
+package tada.lib
 
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement

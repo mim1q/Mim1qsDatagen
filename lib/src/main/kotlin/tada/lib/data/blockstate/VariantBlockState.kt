@@ -1,4 +1,4 @@
-package mim1qsdatagen.base.data.blockstate
+package tada.lib.data.blockstate
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
