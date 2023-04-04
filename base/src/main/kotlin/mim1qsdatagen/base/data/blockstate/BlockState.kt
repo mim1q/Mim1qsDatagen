@@ -37,8 +37,8 @@ abstract class BlockState : MinecraftData {
      *
      * @return a new [VariantBlockState] instance with no specified variants
      */
-    fun create(): VariantBlockState {
-      return VariantBlockState()
+    fun create(setup: VariantBlockState.() -> Unit = {}): VariantBlockState {
+      return VariantBlockState().apply(setup)
     }
 
     /**
@@ -46,8 +46,8 @@ abstract class BlockState : MinecraftData {
      *
      * @return a new [MultipartBlockState] instance with no specified entries
      */
-    fun createMultipart(): MultipartBlockState {
-      return MultipartBlockState()
+    fun createMultipart(setup: MultipartBlockState.() -> Unit = {}): MultipartBlockState {
+      return MultipartBlockState().apply(setup)
     }
   }
 }
