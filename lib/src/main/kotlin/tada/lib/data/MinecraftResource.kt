@@ -21,5 +21,5 @@ interface MinecraftResource {
    * @param namespace the namespace of the project
    * @return the path of the directory in which the file should be generated
    */
-  fun getDefaultOutputPath(baseDir: Path, namespace: String): Path
+  fun getDefaultOutputDirectory(baseDir: Path, namespace: String): Path
 }
