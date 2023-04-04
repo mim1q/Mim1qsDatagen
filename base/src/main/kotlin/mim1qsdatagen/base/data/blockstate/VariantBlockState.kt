@@ -47,6 +47,9 @@ class VariantBlockState internal constructor() : BlockState() {
     return this
   }
 
+  /**
+   * @throws IllegalArgumentException if no variants have been provided
+   */
   override fun generate(): JsonElement {
     if (variants.isEmpty()) throw IllegalStateException("No variants have been provided")
     return JsonObject().apply {

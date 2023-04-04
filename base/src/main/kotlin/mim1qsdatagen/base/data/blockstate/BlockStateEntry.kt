@@ -20,10 +20,10 @@ abstract class BlockStateEntry(
   }
 
   /**
-   * Gets an array of provided models with their weights
+   * Creates an array of provided models with their weights
    * @return [JsonArray] of models added to this entry
    */
-  private fun generateObjectArray(): JsonArray {
+  private fun generateWeightedModelArray(): JsonArray {
     val result = JsonArray()
     models.forEach {
       result.add(it.generate(true))
@@ -40,7 +40,7 @@ abstract class BlockStateEntry(
   fun generateModelElement(): JsonElement {
     if (models.size == 0) throw IllegalStateException("No models provided")
     if (models.size == 1) return models[0].generate(false)
-    return generateObjectArray()
+    return generateWeightedModelArray()
   }
 
   /**

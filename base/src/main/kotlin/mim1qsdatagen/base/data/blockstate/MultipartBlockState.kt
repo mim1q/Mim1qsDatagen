@@ -80,6 +80,9 @@ class MultipartBlockState internal constructor() : BlockState() {
     return this
   }
 
+  /**
+   * @throws IllegalArgumentException if no entries have been provided
+   */
   override fun generate(): JsonElement {
     if (entries.isEmpty()) throw IllegalStateException("No entries have been provided")
     return JsonObject().apply {
