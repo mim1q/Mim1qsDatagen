@@ -3,6 +3,7 @@ package mim1qsdatagen.base.blockstate
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import mim1qsdatagen.base.TestUtil
+import mim1qsdatagen.base.data.blockstate.BlockState
 import mim1qsdatagen.base.data.blockstate.BlockStateModel
 import mim1qsdatagen.base.data.blockstate.MultipartBlockState
 import mim1qsdatagen.base.data.blockstate.VariantBlockState
@@ -21,6 +22,14 @@ internal class BlockStateTest {
       VariantBlockState().generate()
     }
   }
+
+  @Test
+  fun `multipart block state with no variants throws an exception`() {
+    assertThrows<IllegalStateException> {
+      BlockState.createMultipart().generate()
+    }
+  }
+
 
   @Test
   fun `variant block state with one variant and one model`() {

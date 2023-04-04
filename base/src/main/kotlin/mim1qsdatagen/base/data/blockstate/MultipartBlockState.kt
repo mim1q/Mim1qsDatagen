@@ -81,6 +81,7 @@ class MultipartBlockState internal constructor() : BlockState() {
   }
 
   override fun generate(): JsonElement {
+    if (entries.isEmpty()) throw IllegalStateException("No entries have been provided")
     return JsonObject().apply {
       add("multipart", JsonArray().apply {
         entries.forEach {entry ->
