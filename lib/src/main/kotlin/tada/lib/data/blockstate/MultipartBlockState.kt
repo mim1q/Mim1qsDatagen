@@ -18,7 +18,7 @@ import com.google.gson.JsonObject
  *
  * @see <a href="https://minecraft.fandom.com/wiki/Tutorials/Models#Block_states">Minecraft Wiki for Block States</a
  */
-class MultipartBlockState internal constructor() : BlockState() {
+class MultipartBlockState internal constructor() : BlockState {
   private val entries = mutableListOf<Entry>()
 
   /**

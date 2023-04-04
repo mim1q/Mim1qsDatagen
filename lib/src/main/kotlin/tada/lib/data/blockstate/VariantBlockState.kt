@@ -12,7 +12,7 @@ import com.google.gson.JsonObject
  *
  * @see <a href="https://minecraft.fandom.com/wiki/Tutorials/Models#Block_states">Minecraft Wiki for Block States</a
  */
-class VariantBlockState internal constructor() : BlockState() {
+class VariantBlockState internal constructor() : BlockState {
   /**
    * List of all the variants of this Block State
    */
