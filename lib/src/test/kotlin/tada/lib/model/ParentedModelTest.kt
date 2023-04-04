@@ -58,11 +58,11 @@ internal class ParentedModelTest {
   @Test
   fun `parented models of items and blocks point to the correct directory`() {
     assertEquals(
-      ParentedModel.item("").getDefaultOutputPath(Path.of("/"), "test"),
+      ParentedModel.item("").getDefaultOutputDirectory(Path.of("/"), "test"),
       Path.of("/assets/test/models/item/")
     )
     assertEquals(
-      ParentedModel.block("").getDefaultOutputPath(Path.of("/"), "test"),
+      ParentedModel.block("").getDefaultOutputDirectory(Path.of("/"), "test"),
       Path.of("/assets/test/models/block/")
     )
   }

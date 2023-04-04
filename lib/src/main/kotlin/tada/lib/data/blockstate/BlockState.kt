@@ -7,7 +7,7 @@ import java.nio.file.Path
  * Base class for Block State data
  */
 interface BlockState : MinecraftResource {
-  override fun getDefaultOutputPath(baseDir: Path, namespace: String): Path {
+  override fun getDefaultOutputDirectory(baseDir: Path, namespace: String): Path {
     return baseDir.resolve("assets/${namespace}/blockstates/")
   }
 

@@ -45,7 +45,7 @@ class ParentedModel internal constructor(
     }
   }
 
-  override fun getDefaultOutputPath(baseDir: Path, namespace: String): Path {
+  override fun getDefaultOutputDirectory(baseDir: Path, namespace: String): Path {
     return baseDir.resolve("assets/$namespace/models/${type.folderName}/")
   }
 
