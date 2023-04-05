@@ -12,7 +12,7 @@ import java.nio.file.Path
  * @param fileSaver provides strategies to save the generated [JsonElement] Strings and to prepare the base directory
  * @param jsonFormatter provides a String formatting strategy for JSON data
  */
-class ResourceGenerator internal constructor(
+class ResourceGenerator(
   private val namespace: String,
   private val baseDirectory: Path,
   private val fileSaver: FileSaver,
@@ -45,13 +45,35 @@ class ResourceGenerator internal constructor(
   }
 
   /**
+   * Add multiple resources to the generator
+   *
+   * @param list [List] of [GeneratorEntry]s to add to [entries]
+   */
+  fun add(list: List<GeneratorEntry>) {
+    for (entry in list) {
+      add(entry.name, entry.resource)
+    }
+  }
+
+  /**
+   * Add multiple resources to the generator
+   *
+   * @param lists [List]s of [GeneratorEntry]s to add to [entries]
+   */
+  fun add(vararg lists: List<GeneratorEntry>) {
+    for (list in lists) {
+      add(list)
+    }
+  }
+
+  /**
    * Generate the single provided resource with the provided [fileSaver] and [jsonFormatter] strategies
    *
    * @param name the name of the resource
    * @param resource the [MinecraftResource] to generate
    */
   private fun generateResource(name: String, resource: MinecraftResource) {
-    val filePath = resource.getDefaultOutputDirectory(baseDirectory, namespace).resolve(name);
+    val filePath = resource.getDefaultOutputDirectory(baseDirectory, namespace).resolve(name)
     fileSaver.save(filePath, jsonFormatter.format(resource.generate()))
   }
 
@@ -62,6 +84,22 @@ class ResourceGenerator internal constructor(
     fileSaver.prepare(baseDirectory)
     for (entry in entries) {
       generateResource(entry.name, entry.resource)
+    }
+    fileSaver.finish(baseDirectory)
+  }
+
+  companion object {
+    /**
+     * Creates a default [ResourceGenerator]
+     *
+     * @param namespace the namespace of the generator (usually the ID of your mod / datapack)
+     * @param baseDirectory path to the base directory of the generated data
+     * @return a [ResourceGenerator] instance with the given [namespace] and [baseDirectory] path, using the
+     * [FilesystemFileSaver] for the output strategy and [BeautifiedJsonFormatter] for the JSON-to-String formatting
+     * strategy
+     */
+    fun create(namespace: String, baseDirectory: Path): ResourceGenerator {
+      return ResourceGenerator(namespace, baseDirectory, FilesystemFileSaver, BeautifiedJsonFormatter)
     }
   }
 
@@ -88,6 +126,13 @@ class ResourceGenerator internal constructor(
      * @param content content to write to the file
      */
     fun save(filePath: Path, content: String)
+
+    /**
+     * Runs after all the files have been generated
+     *
+     * @param baseDirectory path to the base directory of the generated pack
+     */
+    fun finish(baseDirectory: Path) { }
   }
 
   /**
