@@ -1,39 +1,24 @@
 package tada.lib.data.generator
 
-import java.io.File
+import java.nio.file.Files
 import java.nio.file.Path
+import kotlin.io.path.createFile
+import kotlin.io.path.exists
 
 /**
- * Implementation of [ResourceGenerator.FileSaver] that clears the base directory before generating and writes the
- * content to files saved on disk
+ * Implementation of [ResourceGenerator.FileSaver] that writes the content to files saved on disk
  */
 object FilesystemFileSaver : ResourceGenerator.FileSaver {
-  /**
-   * Clears the specified directory of all files and subdirectories
-   *
-   * @param directory the directory to clear
-   */
-  private fun clearDirectory(directory: File) {
-    for (file in directory.listFiles()!!) {
-      if (file.isDirectory) {
-        clearDirectory(file)
-      } else {
-        file.delete()
-      }
-    }
-  }
-
-  /**
-   * Prepares the base directory by clearing it
-   */
-  override fun prepare(baseDirectory: Path) {
-    clearDirectory(baseDirectory.toFile())
-  }
+  override fun prepare(baseDirectory: Path) { }
 
   /**
    * Saves the content to a file on disk
    */
   override fun save(filePath: Path, content: String) {
+    Files.createDirectories(filePath.parent)
+    if (!filePath.exists()) {
+      filePath.createFile()
+    }
     filePath.toFile().writeText(content)
   }
 }
