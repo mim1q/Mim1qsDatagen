@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test
 import tada.lib.data.blockstate.BlockState
 import tada.lib.data.generator.ResourceGenerator
 import tada.lib.data.model.ParentedModel
+import tada.lib.data.presets.Preset
 import java.nio.file.Path
 
 class ResourceGeneratorTest {
@@ -48,7 +49,7 @@ class ResourceGeneratorTest {
     createGenerator().apply {
       add("test_model", ParentedModel.item(""))
     }.generate()
-    assert(map.contains(Path.of("/assets/test/models/item/test_model").toString()))
+    assert(map.contains(Path.of("/assets/test/models/item/test_model.json").toString()))
   }
 
   @Test
@@ -58,8 +59,17 @@ class ResourceGeneratorTest {
       add("test_block", ParentedModel.block(""))
       add("test_blockstate", BlockState.createSingle(""))
     }.generate()
-    assert(map.contains(Path.of("/assets/test/models/item/test_item").toString()))
-    assert(map.contains(Path.of("/assets/test/models/block/test_block").toString()))
-    assert(map.contains(Path.of("/assets/test/blockstates/test_blockstate").toString()))
+    assert(map.contains(Path.of("/assets/test/models/item/test_item.json").toString()))
+    assert(map.contains(Path.of("/assets/test/models/block/test_block.json").toString()))
+    assert(map.contains(Path.of("/assets/test/blockstates/test_blockstate.json").toString()))
+  }
+
+  @Test
+  fun `preset generates correctly`() {
+    createGenerator().apply {
+      add(Preset(
+
+      ))
+    }
   }
 }

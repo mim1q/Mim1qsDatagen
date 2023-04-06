@@ -2,6 +2,7 @@ package tada.lib.data.generator
 
 import com.google.gson.JsonElement
 import tada.lib.data.MinecraftResource
+import tada.lib.data.presets.Preset
 import java.nio.file.Path
 
 /**
@@ -12,7 +13,7 @@ import java.nio.file.Path
  * @param fileSaver provides strategies to save the generated [JsonElement] Strings and to prepare the base directory
  * @param jsonFormatter provides a String formatting strategy for JSON data
  */
-class ResourceGenerator(
+open class ResourceGenerator(
   private val namespace: String,
   private val baseDirectory: Path,
   private val fileSaver: FileSaver,
@@ -33,36 +34,9 @@ class ResourceGenerator(
     entries.add(GeneratorEntry(name, resource))
   }
 
-  /**
-   * Add multiple resources to the generator
-   *
-   * @param entries [GeneratorEntry]s to add to [entries]
-   */
-  fun add(vararg entries: GeneratorEntry) {
-    for (entry in entries) {
-      add(entry.name, entry.resource)
-    }
-  }
-
-  /**
-   * Add multiple resources to the generator
-   *
-   * @param list [List] of [GeneratorEntry]s to add to [entries]
-   */
-  fun add(list: List<GeneratorEntry>) {
-    for (entry in list) {
-      add(entry.name, entry.resource)
-    }
-  }
-
-  /**
-   * Add multiple resources to the generator
-   *
-   * @param lists [List]s of [GeneratorEntry]s to add to [entries]
-   */
-  fun add(vararg lists: List<GeneratorEntry>) {
-    for (list in lists) {
-      add(list)
+  fun add(preset: Preset) {
+    for (entry in preset.entries) {
+      entries.add(entry)
     }
   }
 
@@ -73,7 +47,7 @@ class ResourceGenerator(
    * @param resource the [MinecraftResource] to generate
    */
   private fun generateResource(name: String, resource: MinecraftResource) {
-    val filePath = resource.getDefaultOutputDirectory(baseDirectory, namespace).resolve(name)
+    val filePath = resource.getDefaultOutputDirectory(baseDirectory, namespace).resolve("$name.json")
     fileSaver.save(filePath, jsonFormatter.format(resource.generate()))
   }
 
