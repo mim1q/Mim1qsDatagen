@@ -1,6 +1,6 @@
-package tada.lib.data.blockstate
+package tada.lib.resources.blockstate
 
-import tada.lib.data.MinecraftResource
+import tada.lib.resources.MinecraftResource
 import java.nio.file.Path
 
 /**

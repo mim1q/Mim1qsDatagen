@@ -3,10 +3,10 @@ package tada.lib.blockstate
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import tada.lib.TestUtil
-import tada.lib.data.blockstate.BlockState
-import tada.lib.data.blockstate.BlockStateModel
-import tada.lib.data.blockstate.MultipartBlockState
-import tada.lib.data.blockstate.VariantBlockState
+import tada.lib.resources.blockstate.BlockState
+import tada.lib.resources.blockstate.BlockStateModel
+import tada.lib.resources.blockstate.MultipartBlockState
+import tada.lib.resources.blockstate.VariantBlockState
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows

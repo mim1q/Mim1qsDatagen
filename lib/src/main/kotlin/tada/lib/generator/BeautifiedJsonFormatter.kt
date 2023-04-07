@@ -1,4 +1,4 @@
-package tada.lib.data.generator
+package tada.lib.generator
 
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement

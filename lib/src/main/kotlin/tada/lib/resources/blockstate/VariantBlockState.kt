@@ -1,4 +1,4 @@
-package tada.lib.data.blockstate
+package tada.lib.resources.blockstate
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject

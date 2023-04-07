@@ -1,4 +1,4 @@
-package tada.lib.data
+package tada.lib.resources
 
 import com.google.gson.JsonElement
 import java.nio.file.Path

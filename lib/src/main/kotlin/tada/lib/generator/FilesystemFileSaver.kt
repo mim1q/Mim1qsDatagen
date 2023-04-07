@@ -1,4 +1,4 @@
-package tada.lib.data.generator
+package tada.lib.generator
 
 import java.nio.file.Files
 import java.nio.file.Path

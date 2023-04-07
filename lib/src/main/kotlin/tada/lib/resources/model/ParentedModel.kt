@@ -1,8 +1,8 @@
-package tada.lib.data.model
+package tada.lib.resources.model
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import tada.lib.data.MinecraftResource
+import tada.lib.resources.MinecraftResource
 import java.nio.file.Path
 
 /**

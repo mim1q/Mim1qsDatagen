@@ -1,8 +1,8 @@
-package tada.lib.data.generator
+package tada.lib.generator
 
 import com.google.gson.JsonElement
-import tada.lib.data.MinecraftResource
-import tada.lib.data.presets.Preset
+import tada.lib.resources.MinecraftResource
+import tada.lib.presets.Preset
 import java.nio.file.Path
 
 /**

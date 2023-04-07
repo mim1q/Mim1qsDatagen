@@ -2,8 +2,8 @@ package tada.lib.blockstate
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import tada.lib.data.blockstate.BlockStateModel
-import tada.lib.data.blockstate.VariantBlockState
+import tada.lib.resources.blockstate.BlockStateModel
+import tada.lib.resources.blockstate.VariantBlockState
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

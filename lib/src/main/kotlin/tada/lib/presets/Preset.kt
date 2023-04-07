@@ -1,7 +1,7 @@
-package tada.lib.data.presets
+package tada.lib.presets
 
-import tada.lib.data.MinecraftResource
-import tada.lib.data.generator.ResourceGenerator.GeneratorEntry
+import tada.lib.resources.MinecraftResource
+import tada.lib.generator.ResourceGenerator.GeneratorEntry
 
 /**
  * Represents a collection of Resources with their names that should be generated as part of a single preset

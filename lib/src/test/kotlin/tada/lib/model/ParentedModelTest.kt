@@ -1,7 +1,7 @@
 package tada.lib.model
 
 import tada.lib.TestUtil
-import tada.lib.data.model.ParentedModel
+import tada.lib.resources.model.ParentedModel
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.nio.file.Path

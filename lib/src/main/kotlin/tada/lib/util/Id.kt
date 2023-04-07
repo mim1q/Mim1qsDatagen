@@ -1,4 +1,4 @@
-package tada.lib.data.util
+package tada.lib.util
 
 /**
  * Represents the ID of a Resource, along with its name

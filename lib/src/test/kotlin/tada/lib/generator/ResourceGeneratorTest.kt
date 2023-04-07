@@ -4,10 +4,9 @@ import com.google.gson.Gson
 import com.google.gson.JsonElement
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import tada.lib.data.blockstate.BlockState
-import tada.lib.data.generator.ResourceGenerator
-import tada.lib.data.model.ParentedModel
-import tada.lib.data.presets.Preset
+import tada.lib.resources.blockstate.BlockState
+import tada.lib.resources.model.ParentedModel
+import tada.lib.presets.Preset
 import java.nio.file.Path
 
 class ResourceGeneratorTest {
