@@ -3,6 +3,7 @@ package tada.lib.resources.model
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import tada.lib.resources.MinecraftResource
+import tada.lib.resources.blockstate.VariantBlockState
 import java.nio.file.Path
 
 /**
@@ -54,20 +55,22 @@ class ParentedModel internal constructor(
      * Create a new Parented Model of an item
      *
      * @param parent the parent model
+     * @param setup function to apply to the model on creation
      * @return a new instance of a [ParentedModel] with the [Type.ITEM] type property
      */
-    fun item(parent: String): ParentedModel {
-      return ParentedModel(Type.ITEM, parent)
+    fun item(parent: String, setup: ParentedModel.() -> Unit = {}): ParentedModel {
+      return ParentedModel(Type.ITEM, parent).apply(setup)
     }
 
     /**
      * Create a new Parented Model of a block
      *
      * @param parent the parent model
+     * @param setup function to apply to the model on creation
      * @return a new instance of a [ParentedModel] with the [Type.BLOCK] type property
      */
-    fun block(parent: String): ParentedModel {
-      return ParentedModel(Type.BLOCK, parent)
+    fun block(parent: String, setup: ParentedModel.() -> Unit = {}): ParentedModel {
+      return ParentedModel(Type.BLOCK, parent).apply(setup)
     }
   }
 
