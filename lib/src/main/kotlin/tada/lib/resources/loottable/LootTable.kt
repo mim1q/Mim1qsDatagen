@@ -4,6 +4,7 @@ import com.google.gson.JsonElement
 import tada.lib.resources.MinecraftResource
 import java.nio.file.Path
 
+@Deprecated("Not implemented yet")
 class LootTable : MinecraftResource {
   override fun generate(): JsonElement {
     TODO("Not yet implemented")
