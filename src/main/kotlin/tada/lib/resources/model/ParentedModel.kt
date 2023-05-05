@@ -3,7 +3,7 @@ package tada.lib.resources.model
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import tada.lib.resources.MinecraftResource
-import tada.lib.resources.blockstate.VariantBlockState
+import tada.lib.resources.model.ParentedModel.Type
 import java.nio.file.Path
 
 /**
