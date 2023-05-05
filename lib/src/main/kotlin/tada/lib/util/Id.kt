@@ -40,6 +40,13 @@ class Id {
     }
   }
 
+  /**
+   * @return the namespace and name of the resource, in `"namespace:name"` format
+   */
+  override fun toString(): String {
+    return "$namespace:$name"
+  }
+
   operator fun component1(): String { return namespace }
   operator fun component2(): String { return name }
 }
