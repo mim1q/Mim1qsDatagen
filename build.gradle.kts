@@ -1,7 +1,7 @@
 plugins {
   java
   `maven-publish`
-  id("org.jetbrains.kotlin.jvm")
+  id("org.jetbrains.kotlin.jvm") version "1.8.21"
 }
 
 repositories {
