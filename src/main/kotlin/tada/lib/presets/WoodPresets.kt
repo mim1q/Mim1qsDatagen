@@ -10,15 +10,15 @@ object WoodPresets {
   fun fence(id: String): Preset {
     val (ns, name) = Id(id)
     return Preset {
-      add(CommonModelPresets.itemBlockModel("${id}_fence"))
+      add("${name}_fence", ParentedModel.item("block/fence_inventory").texture("texture", "$ns:block/$name"))
       add("${name}_fence_side", ParentedModel.block("block/fence_side").texture("texture", "$ns:block/$name"))
       add("${name}_fence_post", ParentedModel.block("block/fence_post").texture("texture", "$ns:block/$name"))
       add("${name}_fence", BlockState.createMultipart {
-        apply(BlockStateModel("$ns:${name}_fence_post"))
-        applyWhen(BlockStateModel("$ns:${name}_fence_side", uvlock = true), "north=true")
-        applyWhen(BlockStateModel("$ns:${name}_fence_side", yRot = Rotation.CW_90, uvlock = true), "east=true")
-        applyWhen(BlockStateModel("$ns:${name}_fence_side", yRot = Rotation.CW_180, uvlock = true), "south=true")
-        applyWhen(BlockStateModel("$ns:${name}_fence_side", yRot = Rotation.CW_270, uvlock = true), "west=true")
+        apply(BlockStateModel("$ns:block/${name}_fence_post"))
+        applyWhen(BlockStateModel("$ns:block/${name}_fence_side", uvlock = true), "north=true")
+        applyWhen(BlockStateModel("$ns:block/${name}_fence_side", yRot = Rotation.CW_90, uvlock = true), "east=true")
+        applyWhen(BlockStateModel("$ns:block/${name}_fence_side", yRot = Rotation.CW_180, uvlock = true), "south=true")
+        applyWhen(BlockStateModel("$ns:block/${name}_fence_side", yRot = Rotation.CW_270, uvlock = true), "west=true")
       })
     }
   }
@@ -109,7 +109,7 @@ object WoodPresets {
   fun trapdoor(id: String): Preset {
     val (ns, name) = Id(id)
     return Preset {
-      add(CommonModelPresets.itemBlockModel("${id}_trapdoor"))
+      add("${name}_trapdoor", ParentedModel.item("${ns}:block/${name}_trapdoor_bottom"))
       for (suffix in listOf("trapdoor_bottom", "trapdoor_open", "trapdoor_top")) {
         add("${name}_$suffix", ParentedModel.block("block/template_orientable_$suffix").texture("texture", "$ns:block/${name}_trapdoor"))
       }

@@ -55,8 +55,8 @@ object CommonModelPresets {
     val (bNs, bName) = Id(bottom)
     return Preset {
       add(itemBlockModel("${id}_stairs"))
-      for (suffix in listOf("stairs", "stairs_inner", "stairs_outer")) {
-        add("${name}_$suffix", ParentedModel.block("block/$suffix")
+      for (suffix in listOf(Pair("stairs", "stairs"), Pair("inner_stairs", "stairs_inner"), Pair("outer_stairs", "stairs_outer"))) {
+        add("${name}_${suffix.second}", ParentedModel.block("block/${suffix.first}")
           .texture("top", "$tNs:block/$tName")
           .texture("side", "$sNs:block/$sName")
           .texture("bottom", "$bNs:block/$bName")
