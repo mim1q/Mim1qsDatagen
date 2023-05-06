@@ -7,7 +7,7 @@ import com.google.gson.JsonElement
  * Implementation of [ResourceGenerator.JsonFormatter] that converts JSON Elements into pretty-printed strings
  */
 object BeautifiedJsonFormatter : ResourceGenerator.JsonFormatter {
-  private val gson = GsonBuilder().setPrettyPrinting().create()
+  private val gson = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
 
   override fun format(json: JsonElement): String {
     return gson.toJson(json)
