@@ -35,7 +35,9 @@ class ParentedModel internal constructor(
 
   override fun generate(): JsonElement {
     return JsonObject().apply {
-      addProperty("parent", parent)
+      if (parent.isNotEmpty()) {
+        addProperty("parent", parent)
+      }
       if (textureOverrides.isNotEmpty()) {
         add("textures", JsonObject().apply {
           textureOverrides.forEach {
