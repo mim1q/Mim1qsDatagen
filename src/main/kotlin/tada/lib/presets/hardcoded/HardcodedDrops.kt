@@ -31,7 +31,7 @@ internal object HardcodedDrops {
   }
 
   private fun entry(
-    name: Id? = null,
+    name: String? = null,
     conditionsSetup: (JsonArray.() -> Unit)? = null,
     functionsSetup: (JsonArray.() -> Unit)? = null,
     setup:  JsonObject.() -> Unit = { },
@@ -40,7 +40,7 @@ internal object HardcodedDrops {
     return JsonObject().apply {
       addProperty("type", type)
       if (name != null) {
-        addProperty("name", name.toString())
+        addProperty("name", Id(name).toString())
       }
       if (conditionsSetup != null) {
         add("conditions", JsonArray().apply(conditionsSetup))
@@ -65,7 +65,7 @@ internal object HardcodedDrops {
     }
   }
 
-  fun simpleDrop(id: Id, rolls: IntProvider = IntProvider.constant(1)): JsonResource {
+  fun simpleDrop(id: String, rolls: IntProvider = IntProvider.constant(1)): JsonResource {
     return jsonDrop {
       add(pool(rolls) {
         add(entry(id))
@@ -73,7 +73,7 @@ internal object HardcodedDrops {
     }
   }
 
-  fun silkTouchDrop(id: Id, silkTouchId: Id): JsonResource {
+  fun silkTouchDrop(id: String, silkTouchId: String): JsonResource {
     return jsonDrop {
       add(pool(IntProvider.constant(1)) {
         add(entry(type = "minecraft:alternatives", setup = {
