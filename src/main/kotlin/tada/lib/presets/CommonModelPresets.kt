@@ -7,29 +7,29 @@ import tada.lib.resources.model.ParentedModel
 import tada.lib.util.Id
 
 object CommonModelPresets {
-  fun itemBlockModel(id: Id): Preset {
-    val (ns, name) = id
+  fun itemBlockModel(id: String): Preset {
+    val (ns, name) = Id(id)
     return Preset {
       add(name, ParentedModel.item("$ns:block/$name"))
     }
   }
 
-  fun generatedItemModel(id: Id): Preset {
-    val (ns, name) = id
+  fun generatedItemModel(id: String): Preset {
+    val (ns, name) = Id(id)
     return Preset {
       add(name, ParentedModel.item("item/generated").texture("layer0", "$ns:item/$name"))
     }
   }
 
-  fun cubeAllBlockModel(id: Id): Preset {
-    val (ns, name) = id
+  fun cubeAllBlockModel(id: String): Preset {
+    val (ns, name) = Id(id)
     return Preset {
       add(name, ParentedModel.block("block/cube_all").texture("all", "$ns:block/$name"))
     }
   }
 
-  fun cubeAllBlock(id: Id): Preset {
-    val (ns, name) = id
+  fun cubeAllBlock(id: String): Preset {
+    val (ns, name) = Id(id)
     return Preset {
       add(cubeAllBlockModel(id))
       add(itemBlockModel(id))
@@ -37,11 +37,11 @@ object CommonModelPresets {
     }
   }
 
-  fun stairsBlock(id: Id, top: Id, side: Id = top, bottom: Id = top): Preset {
-    val (ns, name) = id
-    val (tNs, tName) = top
-    val (sNs, sName) = side
-    val (bNs, bName) = bottom
+  fun stairsBlock(id: String, top: String, side: String = top, bottom: String = top): Preset {
+    val (ns, name) = Id(id)
+    val (tNs, tName) = Id(top)
+    val (sNs, sName) = Id(side)
+    val (bNs, bName) = Id(bottom)
     return Preset {
       add(itemBlockModel(id))
       for (suffix in listOf("stairs", "stairs_inner", "stairs_outer")) {
