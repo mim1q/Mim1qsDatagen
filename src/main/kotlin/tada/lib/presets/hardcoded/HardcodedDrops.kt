@@ -87,4 +87,14 @@ internal object HardcodedDrops {
       })
     }
   }
+
+  fun silkTouchOnlyDrop(id: String): JsonResource {
+    return jsonDrop {
+      add(pool(IntProvider.constant(1))  {
+        add(entry(id, conditionsSetup = {
+          add(silkTouchCondition())
+        }))
+      })
+    }
+  }
 }

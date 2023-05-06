@@ -62,4 +62,33 @@ class CommonPresetsTest {
       CommonDropPresets.silkTouchDrop("grass_block", "dirt").entries[0].resource.generate()
     )
   }
+
+  @Test
+  fun `simple silk touch only drop`() {
+    TestUtil.assertJsonEquals(
+      """
+      {
+        "type": "minecraft:block",
+        "pools": [
+          {
+            "rolls": 1,
+            "entries": [
+              {
+                "type": "minecraft:item",
+                "name": "test:test_block",
+                "conditions": [
+                  {
+                    "condition": "minecraft:match_tool",
+                    "predicate": {"enchantments": [{"enchantment": "minecraft:silk_touch", "levels": 1}]}
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+      """,
+      CommonDropPresets.silkTouchOnlyDrop("test:test_block").entries[0].resource.generate()
+    )
+  }
 }
