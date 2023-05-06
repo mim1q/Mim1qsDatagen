@@ -3,7 +3,6 @@ package tada.lib.preset
 import org.junit.jupiter.api.Test
 import tada.lib.TestUtil
 import tada.lib.presets.CommonDropPresets
-import tada.lib.util.Id
 
 class CommonPresetsTest {
   @Test
@@ -25,7 +24,7 @@ class CommonPresetsTest {
           ]
         }
       """,
-      CommonDropPresets.simpleDrop(Id("stone"), Id("stone")).entries[0].resource.generate()
+      CommonDropPresets.simpleDrop("stone", "stone").entries[0].resource.generate()
     )
   }
 
@@ -60,7 +59,7 @@ class CommonPresetsTest {
           ]
         }
       """,
-      CommonDropPresets.silkTouchDrop(Id("grass_block"), Id("dirt")).entries[0].resource.generate()
+      CommonDropPresets.silkTouchDrop("grass_block", "dirt").entries[0].resource.generate()
     )
   }
 }
