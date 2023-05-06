@@ -37,4 +37,14 @@ internal class IdTest {
   fun `single-argument constructor throws when an invalid id is provided`() {
     assertThrows<IllegalArgumentException> { (Id("namespace:name:wrong")) }
   }
+
+  @Test
+  fun `tags are created correctly with one-argument constructor`() {
+    assertEquals("#test:some_tag", Id.tag("test:some_tag").toString())
+  }
+
+  @Test
+  fun `tags are created correctly with two-argument constructor`() {
+    assertEquals("#test:some_tag", Id.tag("test", "some_tag").toString())
+  }
 }

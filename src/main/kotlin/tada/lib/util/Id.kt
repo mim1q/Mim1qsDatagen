@@ -43,10 +43,40 @@ class Id {
   /**
    * @return the namespace and name of the resource, in `"namespace:name"` format
    */
-  override fun toString(): String {
-    return "$namespace:$name"
-  }
+  override fun toString(): String = "$namespace:$name"
 
-  operator fun component1(): String { return namespace }
-  operator fun component2(): String { return name }
+  /**
+   * @return the namespace of the resource
+   *
+   * Used in destructuring:
+   *
+   * `val (ns, _) = Id("minecraft:stone")`
+   */
+  operator fun component1(): String = namespace
+
+  /**
+   * @return the name of the resource
+   *
+   * Used in destructuring:
+   *
+   * `val (_, name) = Id("minecraft:stone")`
+   */
+  operator fun component2(): String = name
+
+  companion object {
+    /**
+     * @param namespace the namespace of the tag
+     * @param name the name of the tag
+     *
+     * @return a new [Id] representing the tag with the given namespace and name (`#namespace:name`)
+     */
+    fun tag(namespace: String, name: String): Id = Id("#$namespace", name)
+
+    /**
+     * @param id the id of the tag, in `"namespace:name"` format
+     *
+     * @return a new [Id] representing the tag with the given namespace and name (`#namespace:name`)
+     */
+    fun tag(id: String) = Id("#${Id(id)}")
+  }
 }
