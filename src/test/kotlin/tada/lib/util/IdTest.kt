@@ -40,11 +40,15 @@ internal class IdTest {
 
   @Test
   fun `tags are created correctly with one-argument constructor`() {
-    assertEquals("#test:some_tag", Id.tag("test:some_tag").toString())
+    val tag = Id("#test:some_tag")
+    assertEquals("test:some_tag", tag.toString())
+    assert(tag.isTag)
   }
 
   @Test
   fun `tags are created correctly with two-argument constructor`() {
-    assertEquals("#test:some_tag", Id.tag("test", "some_tag").toString())
+    val tag = Id("test", "some_tag", true)
+    assertEquals("test:some_tag", tag.toString())
+    assert(tag.isTag)
   }
 }

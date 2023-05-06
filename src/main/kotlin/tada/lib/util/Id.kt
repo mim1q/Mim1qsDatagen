@@ -6,6 +6,7 @@ package tada.lib.util
 class Id {
   private val namespace: String
   private val name: String
+  val isTag: Boolean
 
   /**
    * @param namespace the namespace of the resource
@@ -13,9 +14,10 @@ class Id {
    *
    * @constructor Creates a new [Id] with the given namespace and name
    */
-  constructor(namespace: String, name: String) {
+  constructor(namespace: String, name: String, isTag: Boolean = false) {
     this.namespace = namespace
     this.name = name
+    this.isTag = isTag
   }
 
   /**
@@ -24,7 +26,8 @@ class Id {
    * @constructor Creates a new [Id] with the namespace and name of the resource provided by the given [id] string
    */
   constructor(id: String) {
-    val name = id.split(":")
+    isTag = id.startsWith("#")
+    val name = id.replace("#", "").split(":")
     when (name.size) {
       1 -> {
         this.namespace = "minecraft"
@@ -62,21 +65,4 @@ class Id {
    * `val (_, name) = Id("minecraft:stone")`
    */
   operator fun component2(): String = name
-
-  companion object {
-    /**
-     * @param namespace the namespace of the tag
-     * @param name the name of the tag
-     *
-     * @return a new [Id] representing the tag with the given namespace and name (`#namespace:name`)
-     */
-    fun tag(namespace: String, name: String): Id = Id("#$namespace", name)
-
-    /**
-     * @param id the id of the tag, in `"namespace:name"` format
-     *
-     * @return a new [Id] representing the tag with the given namespace and name (`#namespace:name`)
-     */
-    fun tag(id: String) = Id("#${Id(id)}")
-  }
 }
