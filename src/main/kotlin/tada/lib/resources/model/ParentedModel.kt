@@ -4,6 +4,7 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import tada.lib.resources.MinecraftResource
 import tada.lib.resources.model.ParentedModel.Type
+import tada.lib.util.Id
 import java.nio.file.Path
 
 /**
@@ -29,8 +30,18 @@ class ParentedModel internal constructor(
    * @return this [ParentedModel] instance
    */
   fun texture(key: String, texture: String): ParentedModel {
-    textureOverrides[key] = texture
+    textureOverrides[key] = Id(texture).toString()
     return this
+  }
+
+  /**
+   * Adds a texture override to the model, with the defaul key of `texture`
+   *
+   * @param texture path to the texture file
+   * @return this [ParentedModel] instance
+   */
+  fun texture(texture: String): ParentedModel {
+    return texture("texture", texture)
   }
 
   override fun generate(): JsonElement {
