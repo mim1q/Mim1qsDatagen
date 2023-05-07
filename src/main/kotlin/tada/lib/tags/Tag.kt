@@ -11,7 +11,7 @@ class Tag(
   private val id: String,
   vararg entries: String
 ) : MinecraftResource {
-  private val values = arrayListOf(*entries)
+  internal val values = arrayListOf(*entries)
 
   fun add(vararg entries: String) {
     values.addAll(entries)
@@ -31,6 +31,6 @@ class Tag(
 
   override fun getDefaultOutputDirectory(baseDir: Path, namespace: String): Path {
     val (ns, name) = Id(id)
-    return baseDir.resolve("data/$ns/tags/${name}/")
+    return baseDir.resolve("data/$ns/tags/${name.split("/").first()}/")
   }
 }

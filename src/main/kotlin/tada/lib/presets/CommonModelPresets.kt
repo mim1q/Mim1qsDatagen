@@ -14,10 +14,10 @@ object CommonModelPresets {
     }
   }
 
-  fun generatedItemModel(id: String): Preset {
+  fun generatedItemModel(id: String, folder: String = "item"): Preset {
     val (ns, name) = Id(id)
     return Preset {
-      add(name, ParentedModel.item("item/generated").texture("layer0", "$ns:item/$name"))
+      add(name, ParentedModel.item("item/generated").texture("layer0", "$ns:${folder}/$name"))
     }
   }
 
@@ -46,6 +46,13 @@ object CommonModelPresets {
         variant("axis=z", BlockStateModel("${ns}:block/$name", Rotation.CW_90))
       })
     }
+  }
+
+  fun crossBlock(id: String) = Preset {
+    val (ns, name) = Id(id)
+    add(name, ParentedModel.block("block/cross")
+      .texture("cross", "$ns:block/$name"))
+    add(generatedItemModel("$ns:${name}_sapling", "block"))
   }
 
   fun stairsBlock(id: String, top: String = id, side: String = top, bottom: String = top): Preset {
@@ -166,7 +173,7 @@ object CommonModelPresets {
       add("${name}_pressure_plate_down", ParentedModel.block("block/pressure_plate_down").texture("$tNs:block/$tName"))
       add("${name}_pressure_plate", BlockState.create {
         variant("powered=true", "$ns:block/${name}_pressure_plate_down")
-        variant("powered=false", "$ns:block/${name}_pressure_plate_up")
+        variant("powered=false", "$ns:block/${name}_pressure_plate")
       })
     }
   }

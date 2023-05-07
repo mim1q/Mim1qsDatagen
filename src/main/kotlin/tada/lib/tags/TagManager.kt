@@ -17,5 +17,17 @@ object TagManager {
     tags[key] = Tag(tagId, *entries)
   }
 
-  internal fun generatePreset() = Preset { tags.forEach {(k, v) ->  add(k, v)} }
+  fun copy(from: String, to: String) {
+    val key = Id(from).toString()
+    tags[key]?.values?.forEach {
+      add(to, it)
+    }
+  }
+
+  internal fun generatePreset() = Preset { tags.forEach {(k, v) ->
+    run {
+      val (_, name) = Id(k)
+      add(name.split("/").last(), v)
+    }
+  }}
 }
