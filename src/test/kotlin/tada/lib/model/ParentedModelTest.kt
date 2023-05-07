@@ -12,7 +12,7 @@ internal class ParentedModelTest {
     TestUtil.assertJsonEquals(
       """
         {
-          "parent": "model1"
+          "parent": "minecraft:model1"
         }
       """.trimIndent(),
       ParentedModel(ParentedModel.Type.BLOCK, "model1").generate()
@@ -24,9 +24,9 @@ internal class ParentedModelTest {
     TestUtil.assertJsonEquals(
       """
         {
-          "parent": "model1",
+          "parent": "minecraft:model1",
           "textures": {
-            "layer0": "some_texture"
+            "layer0": "minecraft:some_texture"
           }
         }
       """.trimIndent(),
@@ -41,10 +41,10 @@ internal class ParentedModelTest {
     TestUtil.assertJsonEquals(
       """
         {
-          "parent": "model1",
+          "parent": "minecraft:model1",
           "textures": {
-            "layer0": "some_texture",
-            "layer1": "some_other_texture"
+            "layer0": "minecraft:some_texture",
+            "layer1": "minecraft:some_other_texture"
           }
         }
       """.trimIndent(),
