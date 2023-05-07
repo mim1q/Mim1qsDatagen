@@ -43,4 +43,15 @@ class Preset(setup: Preset.() -> Unit = {}) {
   fun add(preset: Preset) {
     entries.addAll(preset.entries)
   }
+
+  /**
+   * Removes all entries with the provided names from the preset
+   *
+   * @param names names of entries to remove
+   * @return this [Preset]
+   */
+  fun exclude(vararg names: String): Preset {
+    entries.removeAll { names.contains(it.name) }
+    return this
+  }
 }
