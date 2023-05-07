@@ -2,6 +2,7 @@ package tada.lib.presets
 
 import tada.lib.resources.blockstate.BlockState
 import tada.lib.resources.model.ParentedModel
+import tada.lib.resources.recipe.CraftingRecipe
 import tada.lib.tags.TagManager
 import tada.lib.util.Id
 
@@ -27,6 +28,7 @@ object BlockSets {
 
   fun basicWoodSet(id: String) = Preset {
     val (ns, name) = Id(id)
+
     // Models
     add(CommonModelPresets.cubeAllBlock("$ns:${name}_planks"))
     add(CommonModelPresets.pillarBlock("$ns:${name}_log"))
@@ -44,6 +46,40 @@ object BlockSets {
     add("${name}_sign", BlockState.createSingle("$ns:block/${name}_sign"))
     add("${name}_sign", ParentedModel.block("").texture("particle", "$ns:${name}_planks"))
     add(CommonModelPresets.generatedItemModel("$ns:${name}_sign"))
+
+    // Recipes
+    add(CommonRecipePresets.oneToOne("#$ns:${name}_logs", "#$ns:${name}_planks", 4))
+    add(CommonRecipePresets.slab("$ns:${name}_planks", "$ns:${name}_slab"))
+    add(CommonRecipePresets.stairs("$ns:${name}_planks", "$ns:${name}_stairs"))
+    add("${name}_fence", CraftingRecipe.shaped("$ns:${name}_fence", 3) {
+      pattern("PSP", "PSP")
+      key("P", "$ns:${name}_planks")
+      key("S", "stick")
+    })
+    add("${name}_fence_gate", CraftingRecipe.shaped("$ns:${name}_fence_gate") {
+      pattern("SPS", "SPS")
+      key("P", "$ns:${name}_planks")
+      key("S", "stick")
+    })
+    add("${name}_door", CraftingRecipe.shaped("$ns:${name}_door") {
+      pattern("PP", "PP", "PP")
+      key("P", "$ns:${name}_planks")
+    })
+    add("${name}_trapdoor", CraftingRecipe.shaped("$ns:${name}_trapdoor") {
+      pattern("PPP", "PPP")
+      key("P", "$ns:${name}_planks")
+    })
+    add("${name}_button", CraftingRecipe.shapeless("$ns:${name}_button") { ingredient("$ns:${name}_planks") })
+    add("${name}_pressure_plate", CraftingRecipe.shaped("$ns:${name}_pressure_plate") {
+      pattern("PP")
+      key("P", "$ns:${name}_planks")
+    })
+    add("${name}_sign", CraftingRecipe.shaped("$ns:${name}_sign") {
+      pattern("PPP", "PPP", " S ")
+      key("P", "$ns:${name}_planks")
+      key("S", "stick")
+    })
+
     // Block Tags
     TagManager.add("blocks/planks", "$ns:${name}_planks")
     TagManager.add("$ns:blocks/${name}_logs", "$ns:${name}_log", "$ns:stripped_${name}_log", "$ns:${name}_wood", "$ns:stripped_${name}_wood")
@@ -54,6 +90,7 @@ object BlockSets {
       TagManager.add("blocks/wooden_${it}s", "$ns:${name}_${it}")
     }
     listOf("blocks/signs", "blocks/standing_signs").forEach { TagManager.add(it, "$ns:${name}_sign") }
+
     // Item Tags
     TagManager.copy("$ns:blocks/${name}_logs", "$ns:items/${name}_logs")
     listOf(
