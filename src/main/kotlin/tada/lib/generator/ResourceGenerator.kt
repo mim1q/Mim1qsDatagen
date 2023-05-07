@@ -3,6 +3,7 @@ package tada.lib.generator
 import com.google.gson.JsonElement
 import tada.lib.resources.MinecraftResource
 import tada.lib.presets.Preset
+import tada.lib.tags.TagManager
 import java.nio.file.Path
 
 /**
@@ -19,6 +20,8 @@ open class ResourceGenerator(
   private val fileSaver: FileSaver,
   private val jsonFormatter: JsonFormatter
 ) {
+  init { TagManager.clear() }
+
   /**
    * List of the provided [MinecraftResource]s with their respective [String] names
    */
@@ -55,6 +58,7 @@ open class ResourceGenerator(
    * Generate all the previously added resources, previously preparing
    */
   fun generate() {
+    add(TagManager.generatePreset())
     fileSaver.prepare(baseDirectory)
     for (entry in entries) {
       generateResource(entry.name, entry.resource)
