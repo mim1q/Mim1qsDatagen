@@ -130,4 +130,44 @@ object CommonModelPresets {
       })
     }
   }
+  
+  fun buttonBlock(id: String, texture: String = id): Preset {
+    val (ns, name) = Id(id)
+    val (tNs, tName) = Id(texture)
+    return Preset {
+      add("${name}_button", ParentedModel.block("block/button").texture("$tNs:block/$tName"))
+      add("${name}_button_pressed", ParentedModel.block("block/button_pressed").texture("$tNs:block/$tName"))
+      add("${name}_button", ParentedModel.item("block/button_inventory").texture("$tNs:block/$tName"))
+      add("${name}_button", BlockState.create {
+        for ((powered, suffix) in listOf(Pair("true", "_pressed"), Pair("false", ""))) {
+          variant("face=ceiling,facing=east,powered=$powered", BlockStateModel("$ns:block/${name}_button$suffix", xRot = Rotation.CW_180, yRot = Rotation.CW_270))
+          variant("face=ceiling,facing=north,powered=$powered", BlockStateModel("$ns:block/${name}_button$suffix", xRot = Rotation.CW_180, yRot = Rotation.CW_180))
+          variant("face=ceiling,facing=south,powered=$powered", BlockStateModel("$ns:block/${name}_button$suffix", xRot = Rotation.CW_180))
+          variant("face=ceiling,facing=west,powered=$powered", BlockStateModel("$ns:block/${name}_button$suffix", xRot = Rotation.CW_180, yRot = Rotation.CW_90))
+          variant("face=floor,facing=east,powered=$powered", BlockStateModel("$ns:block/${name}_button$suffix", yRot = Rotation.CW_90))
+          variant("face=floor,facing=north,powered=$powered", BlockStateModel("$ns:block/${name}_button$suffix"))
+          variant("face=floor,facing=south,powered=$powered", BlockStateModel("$ns:block/${name}_button$suffix", yRot = Rotation.CW_180))
+          variant("face=floor,facing=west,powered=$powered", BlockStateModel("$ns:block/${name}_button$suffix", yRot = Rotation.CW_270))
+          variant("face=wall,facing=east,powered=$powered", BlockStateModel("$ns:block/${name}_button$suffix", uvlock = true, xRot = Rotation.CW_90, yRot = Rotation.CW_90))
+          variant("face=wall,facing=north,powered=$powered", BlockStateModel("$ns:block/${name}_button$suffix", uvlock = true, xRot = Rotation.CW_90))
+          variant("face=wall,facing=south,powered=$powered", BlockStateModel("$ns:block/${name}_button$suffix", uvlock = true, xRot = Rotation.CW_90, yRot = Rotation.CW_180))
+          variant("face=wall,facing=west,powered=$powered", BlockStateModel("$ns:block/${name}_button$suffix", uvlock = true, xRot = Rotation.CW_90, yRot = Rotation.CW_270))
+        }
+      })
+    }
+  }
+
+  fun pressurePlateBlock(id: String, texture: String = id): Preset {
+    val (ns, name) = Id(id)
+    val (tNs, tName) = Id(texture)
+    return Preset {
+      add(itemBlockModel("${id}_pressure_plate"))
+      add("${name}_pressure_plate", ParentedModel.block("block/pressure_plate_up").texture("$tNs:block/$tName"))
+      add("${name}_pressure_plate_down", ParentedModel.block("block/pressure_plate_down").texture("$tNs:block/$tName"))
+      add("${name}_pressure_plate", BlockState.create {
+        variant("powered=true", "$ns:block/${name}_pressure_plate_down")
+        variant("powered=false", "$ns:block/${name}_pressure_plate_up")
+      })
+    }
+  }
 }

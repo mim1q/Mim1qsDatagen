@@ -10,9 +10,9 @@ object WoodPresets {
   fun fence(id: String): Preset {
     val (ns, name) = Id(id)
     return Preset {
-      add("${name}_fence", ParentedModel.item("block/fence_inventory").texture("texture", "$ns:block/$name"))
-      add("${name}_fence_side", ParentedModel.block("block/fence_side").texture("texture", "$ns:block/$name"))
-      add("${name}_fence_post", ParentedModel.block("block/fence_post").texture("texture", "$ns:block/$name"))
+      add("${name}_fence", ParentedModel.item("block/fence_inventory").texture("$ns:block/$name"))
+      add("${name}_fence_side", ParentedModel.block("block/fence_side").texture("$ns:block/$name"))
+      add("${name}_fence_post", ParentedModel.block("block/fence_post").texture("$ns:block/$name"))
       add("${name}_fence", BlockState.createMultipart {
         apply(BlockStateModel("$ns:block/${name}_fence_post"))
         applyWhen(BlockStateModel("$ns:block/${name}_fence_side", uvlock = true), "north=true")
@@ -28,7 +28,7 @@ object WoodPresets {
     return Preset {
       add(CommonModelPresets.itemBlockModel("${id}_fence_gate"))
       for (suffix in listOf("fence_gate", "fence_gate_open", "fence_gate_wall", "fence_gate_wall_open")) {
-        add("${name}_$suffix", ParentedModel.block("block/template_$suffix").texture("texture", "$ns:block/$name"))
+        add("${name}_$suffix", ParentedModel.block("block/template_$suffix").texture("$ns:block/$name"))
       }
       add("${name}_fence_gate", BlockState.create {
         variant("facing=east,in_wall=false,open=false", BlockStateModel("$ns:block/${name}_fence_gate", yRot = Rotation.CW_270, uvlock = true))
@@ -111,7 +111,7 @@ object WoodPresets {
     return Preset {
       add("${name}_trapdoor", ParentedModel.item("${ns}:block/${name}_trapdoor_bottom"))
       for (suffix in listOf("trapdoor_bottom", "trapdoor_open", "trapdoor_top")) {
-        add("${name}_$suffix", ParentedModel.block("block/template_orientable_$suffix").texture("texture", "$ns:block/${name}_trapdoor"))
+        add("${name}_$suffix", ParentedModel.block("block/template_orientable_$suffix").texture("$ns:block/${name}_trapdoor"))
       }
       add("${name}_trapdoor", BlockState.create {
         variant("facing=east,half=bottom,open=false", BlockStateModel("$ns:block/${name}_trapdoor_bottom", yRot = Rotation.CW_90))

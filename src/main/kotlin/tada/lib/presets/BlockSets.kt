@@ -16,5 +16,24 @@ object BlockSets {
     add(WoodPresets.fenceGate(id))
     add(WoodPresets.door(id))
     add(WoodPresets.trapdoor(id))
+    add(CommonModelPresets.buttonBlock(id, "$ns:${name}_planks"))
+    add(CommonModelPresets.pressurePlateBlock(id, "$ns:${name}_planks"))
+  }
+
+  fun stoneSet(id: String, defaultDrop: Boolean = true) = Preset {
+    val (ns, name) = Id(id)
+    add(CommonModelPresets.cubeAllBlock("$ns:${name}"))
+    add(CommonModelPresets.stairsBlock(id))
+    add(CommonModelPresets.slabBlock(id))
+    add(CommonModelPresets.pressurePlateBlock(id))
+    add(CommonModelPresets.buttonBlock(id))
+    add(StonePresets.wall(id))
+  }
+
+  fun fullStoneSet(id: String) = Preset {
+    val (ns, name) = Id(id)
+    add(stoneSet(id))
+    add(stoneSet("${id}_cobblestone"))
+    add(stoneSet("${id}_bricks"))
   }
 }
