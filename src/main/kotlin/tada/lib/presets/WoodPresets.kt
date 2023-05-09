@@ -7,12 +7,13 @@ import tada.lib.resources.model.ParentedModel
 import tada.lib.util.Id
 
 object WoodPresets {
-  fun fence(id: String): Preset {
+  fun fence(id: String, base: String = id): Preset {
     val (ns, name) = Id(id)
+    val (bNs, bName) = Id(base)
     return Preset {
-      add("${name}_fence", ParentedModel.item("block/fence_inventory").texture("$ns:block/$name"))
-      add("${name}_fence_side", ParentedModel.block("block/fence_side").texture("$ns:block/$name"))
-      add("${name}_fence_post", ParentedModel.block("block/fence_post").texture("$ns:block/$name"))
+      add("${name}_fence", ParentedModel.item("block/fence_inventory").texture("$bNs:block/$bName"))
+      add("${name}_fence_side", ParentedModel.block("block/fence_side").texture("$bNs:block/$bName"))
+      add("${name}_fence_post", ParentedModel.block("block/fence_post").texture("$bNs:block/$bName"))
       add("${name}_fence", BlockState.createMultipart {
         apply(BlockStateModel("$ns:block/${name}_fence_post"))
         applyWhen(BlockStateModel("$ns:block/${name}_fence_side", uvlock = true), "north=true")
@@ -23,12 +24,13 @@ object WoodPresets {
     }
   }
 
-  fun fenceGate(id: String): Preset {
+  fun fenceGate(id: String, base: String = id): Preset {
     val (ns, name) = Id(id)
+    val (bNs, bName) = Id(base)
     return Preset {
       add(CommonModelPresets.itemBlockModel("${id}_fence_gate"))
       for (suffix in listOf("fence_gate", "fence_gate_open", "fence_gate_wall", "fence_gate_wall_open")) {
-        add("${name}_$suffix", ParentedModel.block("block/template_$suffix").texture("$ns:block/$name"))
+        add("${name}_$suffix", ParentedModel.block("block/template_$suffix").texture("$bNs:block/$bName"))
       }
       add("${name}_fence_gate", BlockState.create {
         variant("facing=east,in_wall=false,open=false", BlockStateModel("$ns:block/${name}_fence_gate", yRot = Rotation.CW_270, uvlock = true))

@@ -35,16 +35,18 @@ object BlockSets {
     add(CommonModelPresets.pillarBlock("$ns:stripped_${name}_log"))
     add(CommonModelPresets.pillarBlock("$ns:${name}_wood", "$ns:${name}_log", "$ns:${name}_log"))
     add(CommonModelPresets.pillarBlock("$ns:stripped_${name}_wood", "$ns:stripped_${name}_log", "$ns:stripped_${name}_log"))
-    add(CommonModelPresets.stairsBlock(id))
-    add(CommonModelPresets.slabBlock(id, "${id}_planks"))
-    add(WoodPresets.fence(id))
-    add(WoodPresets.fenceGate(id))
+    add(CommonModelPresets.stairsBlock(id, "${id}_planks"))
+    add(CommonModelPresets.slabBlock(id, "${id}_planks", "${id}_planks"))
+    add(WoodPresets.fence(id, "${id}_planks"))
+    add(WoodPresets.fenceGate(id, "${id}_planks"))
     add(WoodPresets.door(id))
     add(WoodPresets.trapdoor(id))
     add(CommonModelPresets.buttonBlock(id, "$ns:${name}_planks"))
     add(CommonModelPresets.pressurePlateBlock(id, "$ns:${name}_planks"))
-    add("${name}_sign", BlockState.createSingle("$ns:block/${name}_sign"))
-    add("${name}_sign", ParentedModel.block("").texture("particle", "$ns:${name}_planks"))
+    listOf("sign", "wall_sign").forEach {
+      add("${name}_$it", BlockState.createSingle("$ns:block/${name}_$it"))
+      add("${name}_$it", ParentedModel.block("").texture("particle", "$ns:block/${name}_planks"))
+    }
     add(CommonModelPresets.generatedItemModel("$ns:${name}_sign"))
 
     // Recipes
@@ -89,16 +91,18 @@ object BlockSets {
     listOf("slab", "fence", "door", "trapdoor", "button", "pressure_plate").forEach {
       TagManager.add("blocks/wooden_${it}s", "$ns:${name}_${it}")
     }
-    listOf("blocks/signs", "blocks/standing_signs").forEach { TagManager.add(it, "$ns:${name}_sign") }
+    TagManager.add("blocks/standing_signs", "$ns:${name}_sign")
+    TagManager.add("blocks/wall_signs", "$ns:${name}_wall_sign")
 
     // Item Tags
     TagManager.copy("$ns:blocks/${name}_logs", "$ns:items/${name}_logs")
     listOf(
-      "planks", "${name}_logs", "logs_that_burn", "fence_gates", "wooden_stairs", "wooden_slabs", "wooden_fences",
-      "wooden_doors", "wooden_trapdoors", "wooden_buttons", "wooden_pressure_plates", "signs"
+      "planks", "${name}_logs", "logs_that_burn", "wooden_stairs", "wooden_slabs", "wooden_fences", "wooden_doors",
+      "wooden_trapdoors", "wooden_buttons", "wooden_pressure_plates"
     ).forEach {
       TagManager.copy("blocks/$it", "items/$it")
     }
+    TagManager.copy("blocks/standing_signs", "items/signs")
   }
 
   fun stoneSet(id: String, defaultDrop: Boolean = true) = Preset {
