@@ -19,7 +19,8 @@ internal object HardcodedDrops {
         addProperty("type", "minecraft:block")
         add("pools", JsonArray().apply(poolsSetup))
       },
-      "loot_tables/blocks"
+      "loot_tables/blocks",
+      "data"
     )
   }
 
@@ -93,6 +94,22 @@ internal object HardcodedDrops {
       add(pool(IntProvider.constant(1))  {
         add(entry(id, conditionsSetup = {
           add(silkTouchCondition())
+        }))
+      })
+    }
+  }
+
+  fun doorDrop(id: String): JsonResource {
+    return jsonDrop {
+      add(pool(IntProvider.constant(1)) {
+        add(entry(id, conditionsSetup = {
+          add(JsonObject().apply {
+            addProperty("block", id)
+            addProperty("condition", "minecraft:block_state_property")
+            add("properties", JsonObject().apply {
+              addProperty("half", "lower")
+            })
+          })
         }))
       })
     }

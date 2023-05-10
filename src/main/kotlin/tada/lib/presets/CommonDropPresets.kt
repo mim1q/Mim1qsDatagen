@@ -25,4 +25,11 @@ object CommonDropPresets {
       add(name, HardcodedDrops.silkTouchOnlyDrop(id))
     }
   }
+
+  fun doorDrop(id: String): Preset {
+    val (_, name) = Id(id)
+    return Preset {
+      add(name, HardcodedDrops.doorDrop(id))
+    }
+  }
 }

@@ -82,6 +82,18 @@ object BlockSets {
       key("S", "stick")
     })
 
+    // Block Drops
+    listOf(
+      "${name}_planks", "${name}_log", "${name}_wood", "stripped_${name}_log", "stripped_${name}_wood", "${name}_slab",
+      "${name}_stairs", "${name}_fence", "${name}_fence_gate", "${name}_trapdoor", "${name}_button", "${name}_pressure_plate"
+    ).forEach {
+      add(CommonDropPresets.simpleDrop("$ns:$it"))
+    }
+    listOf("${name}_sign", "${name}_wall_sign").forEach {
+      add(CommonDropPresets.simpleDrop("$ns:$it", "$ns:${name}_sign"))
+    }
+    add(CommonDropPresets.doorDrop("$ns:${name}_door"))
+
     // Block Tags
     TagManager.add("blocks/planks", "$ns:${name}_planks")
     TagManager.add("$ns:blocks/${name}_logs", "$ns:${name}_log", "$ns:stripped_${name}_log", "$ns:${name}_wood", "$ns:stripped_${name}_wood")
