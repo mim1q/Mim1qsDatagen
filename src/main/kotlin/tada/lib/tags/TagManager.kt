@@ -27,7 +27,7 @@ object TagManager {
   internal fun generatePreset() = Preset { tags.forEach {(k, v) ->
     run {
       val (_, name) = Id(k)
-      add(name.split("/").last(), v)
+      add(name.split("/", limit = 2).last(), v)
     }
   }}
 }
