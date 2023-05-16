@@ -5,6 +5,19 @@ import tada.lib.resources.templatepool.TemplatePool
 import tada.lib.util.Id
 
 object TemplatePoolPresets {
+  fun single(
+    location: String,
+    processors: String? = null,
+    terrainMatching: Boolean = false,
+    id: String = location
+  ) = Preset {
+    val locationId = Id(location).toString()
+    val (_, name) = Id(id)
+    add(name, TemplatePool.create(id) {
+      single(1, locationId, processors, terrainMatching)
+    })
+  }
+
   fun prefixed(
     prefix: String,
     vararg entries: Pair<String, Int>,
@@ -16,7 +29,11 @@ object TemplatePoolPresets {
     val (_, name) = Id(id)
     add(name, TemplatePool.create(id) {
       for ((entry, weight) in entries) {
-        single(weight, "$prefixId/$entry", processors, terrainMatching)
+        single(
+          weight,
+          if (entry.contains(":")) entry else "$prefixId/$entry",
+          processors,
+          terrainMatching)
       }
     })
   }
