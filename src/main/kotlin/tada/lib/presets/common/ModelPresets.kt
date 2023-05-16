@@ -1,5 +1,6 @@
-package tada.lib.presets
+package tada.lib.presets.common
 
+import tada.lib.presets.Preset
 import tada.lib.resources.blockstate.BlockState
 import tada.lib.resources.blockstate.BlockStateModel
 import tada.lib.resources.blockstate.BlockStateModel.Rotation

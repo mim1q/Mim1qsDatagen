@@ -2,7 +2,7 @@ package tada.lib.preset
 
 import org.junit.jupiter.api.Test
 import tada.lib.TestUtil
-import tada.lib.presets.CommonDropPresets
+import tada.lib.presets.common.CommonDropPresets
 
 class CommonPresetsTest {
   @Test

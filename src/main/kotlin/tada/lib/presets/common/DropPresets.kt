@@ -1,5 +1,6 @@
-package tada.lib.presets
+package tada.lib.presets.common
 
+import tada.lib.presets.Preset
 import tada.lib.presets.hardcoded.HardcodedDrops
 import tada.lib.util.Id
 import tada.lib.util.IntProvider
