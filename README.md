@@ -15,6 +15,5 @@ It aims to help you create these files in a more imperative and intuitive manner
 
 ## Possible future additions
 
-- Json5-based projects
-- GUI app
-- Color switcher based on user-created swatches
+- Language file utilities
+- Color switcher based on user-defined swatches
