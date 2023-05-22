@@ -38,4 +38,22 @@ object CommonRecipePresets {
       key("X", input)
     })
   }
+
+  fun packed2x2(input: String, output: String, count: Int = 1) = Preset {
+    val (_, outputName) = Id(output)
+    val (_, inputName) = Id(input)
+    add("${inputName}_2x2_to_$outputName", CraftingRecipe.shaped(output, count) {
+      pattern("XX", "XX")
+      key("X", input)
+    })
+  }
+
+  fun packed3x3(input: String, output: String, count: Int = 1) = Preset {
+    val (_, outputName) = Id(output)
+    val (_, inputName) = Id(input)
+    add("${inputName}_3x3_to_$outputName", CraftingRecipe.shaped(output, count) {
+      pattern("XXX", "XXX", "XXX")
+      key("X", input)
+    })
+  }
 }

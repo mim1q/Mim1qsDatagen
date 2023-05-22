@@ -7,6 +7,7 @@ import tada.lib.presets.common.CommonRecipePresets
 import tada.lib.resources.blockstate.BlockState
 import tada.lib.resources.model.ParentedModel
 import tada.lib.resources.recipe.CraftingRecipe
+import tada.lib.resources.recipe.StonecuttingRecipe
 import tada.lib.tags.TagManager
 import tada.lib.util.Id
 
@@ -121,20 +122,69 @@ object BlockSets {
     TagManager.copy("blocks/standing_signs", "items/signs")
   }
 
-  fun stoneSet(id: String, defaultDrop: Boolean = true) = Preset {
+  fun basicStoneSet(id: String, defaultDrop: Boolean = true, baseSuffix: String = "") = Preset {
     val (ns, name) = Id(id)
-    add(CommonModelPresets.cubeAllBlock("$ns:${name}"))
-    add(CommonModelPresets.stairsBlock(id))
-    add(CommonModelPresets.slabBlock(id))
-    add(CommonModelPresets.pressurePlateBlock(id))
-    add(CommonModelPresets.buttonBlock(id))
-    add(StonePresets.wall(id))
+    // Models
+    add(CommonModelPresets.cubeAllBlock("$ns:${name}$baseSuffix"))
+    add(CommonModelPresets.stairsBlock(id, "$ns:${name}$baseSuffix"))
+    add(CommonModelPresets.slabBlock(id, "$ns:${name}$baseSuffix", "$ns:${name}$baseSuffix"))
+    add(StonePresets.wall(id, "$ns:${name}$baseSuffix"))
+    // Recipes
+    add(CommonRecipePresets.slab("$ns:${name}$baseSuffix", "$ns:${name}_slab"))
+    add(CommonRecipePresets.stairs("$ns:${name}$baseSuffix", "$ns:${name}_stairs"))
+    add("${name}_wall", CraftingRecipe.shaped("$ns:${name}_wall", 3) {
+      pattern("XXX", "XXX")
+      key("X", "$ns:${name}$baseSuffix")
+    })
+    add("${name}_slab_stonecutting", StonecuttingRecipe.create("$ns:${name}$baseSuffix", "$ns:${name}_slab", 2))
+    add("${name}_stairs_stonecutting", StonecuttingRecipe.create("$ns:${name}$baseSuffix", "$ns:${name}_stairs"))
+    add("${name}_wall_stonecutting", StonecuttingRecipe.create("$ns:${name}$baseSuffix", "$ns:${name}_wall"))
+    // Block drops
+    if (defaultDrop) {
+      add(CommonDropPresets.simpleDrop("$ns:${name}$baseSuffix"))
+    }
+    listOf("stairs", "slab", "wall").forEach {
+      add(CommonDropPresets.simpleDrop("$ns:${name}_$it"))
+    }
+    // Block Tags
+    TagManager.add("blocks/stairs", "$ns:${name}_stairs")
+    TagManager.add("blocks/mineable/pickaxe", "$ns:${name}_stairs", "$ns:${name}$baseSuffix")
+    listOf("slab", "wall").forEach {
+      TagManager.add("blocks/${it}s", "$ns:${name}_$it")
+      TagManager.add("blocks/mineable/pickaxe", "$ns:${name}_$it")
+    }
+    // Item Tags
+    listOf("slabs", "stairs", "walls").forEach {
+      TagManager.copy("blocks/${it}", "items/${it}")
+    }
   }
 
-  fun fullStoneSet(id: String) = Preset {
+  fun fullStoneSet(id: String, defaultDrop: Boolean = true, baseSuffix: String = "") = Preset {
     val (ns, name) = Id(id)
-    add(stoneSet(id))
-    add(stoneSet("${id}_cobblestone"))
-    add(stoneSet("${id}_bricks"))
+    // Models
+    add(basicStoneSet(id, defaultDrop, baseSuffix))
+    add(CommonModelPresets.pressurePlateBlock(id))
+    add(CommonModelPresets.buttonBlock(id))
+    // Recipes
+    add("${name}_pressure_plate", CraftingRecipe.shaped("$ns:${name}_pressure_plate", 1) {
+      pattern("XX")
+      key("X", "$ns:${name}$baseSuffix")
+    })
+    add("${name}_button", CraftingRecipe.shapeless("$ns:${name}_button") {
+      ingredient("$ns:${name}$baseSuffix")
+    })
+    // Block Drops
+    listOf("button", "pressure_plate").forEach {
+      add(CommonDropPresets.simpleDrop("$ns:${name}_$it"))
+    }
+    // Block Tags
+    TagManager.add("blocks/stone_pressure_plates", "$ns:${name}_pressure_plate")
+    TagManager.add("blocks/mineable/pickaxe", "$ns:${name}_pressure_plate")
+    TagManager.add("blocks/buttons", "$ns:${name}_button")
+    TagManager.add("blocks/mineable/pickaxe", "$ns:${name}_button")
+    // Item Tags
+    listOf("stone_pressure_plates", "buttons").forEach {
+      TagManager.copy("blocks/${it}", "items/${it}")
+    }
   }
 }
