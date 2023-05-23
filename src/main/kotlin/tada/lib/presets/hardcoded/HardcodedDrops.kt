@@ -33,7 +33,7 @@ internal object HardcodedDrops {
 
   private fun entry(
     name: String? = null,
-    conditionsSetup: (JsonArray.() -> Unit) = { },
+    conditionsSetup: (JsonArray.() -> Unit)? = null,
     functionsSetup: (JsonArray.() -> Unit)? = null,
     setup:  JsonObject.() -> Unit = { },
     type: String = "minecraft:item"
@@ -43,11 +43,9 @@ internal object HardcodedDrops {
       if (name != null) {
         addProperty("name", Id(name).toString())
       }
-      add("conditions", JsonArray().apply(conditionsSetup).apply {
-        add(JsonObject().apply {
-          addProperty("condition", "minecraft:survives_explosion")
-        })
-      })
+      if (conditionsSetup != null) {
+        add("conditions", JsonArray().apply(conditionsSetup))
+      }
       if (functionsSetup != null) {
         add("functions", JsonArray().apply(functionsSetup))
       }
