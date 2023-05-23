@@ -89,11 +89,12 @@ object BlockSets {
 
     // Block Drops
     listOf(
-      "${name}_planks", "${name}_log", "${name}_wood", "stripped_${name}_log", "stripped_${name}_wood", "${name}_slab",
-      "${name}_stairs", "${name}_fence", "${name}_fence_gate", "${name}_trapdoor", "${name}_button", "${name}_pressure_plate"
+      "${name}_planks", "${name}_log", "${name}_wood", "stripped_${name}_log", "stripped_${name}_wood", "${name}_stairs",
+      "${name}_fence", "${name}_fence_gate", "${name}_trapdoor", "${name}_button", "${name}_pressure_plate"
     ).forEach {
       add(CommonDropPresets.simpleDrop("$ns:$it"))
     }
+    add(CommonDropPresets.slabDrop("$ns:${name}_slab"))
     listOf("${name}_sign", "${name}_wall_sign").forEach {
       add(CommonDropPresets.simpleDrop("$ns:$it", "$ns:${name}_sign"))
     }
@@ -143,9 +144,10 @@ object BlockSets {
     if (defaultDrop) {
       add(CommonDropPresets.simpleDrop("$ns:${name}$baseSuffix"))
     }
-    listOf("stairs", "slab", "wall").forEach {
+    listOf("stairs", "wall").forEach {
       add(CommonDropPresets.simpleDrop("$ns:${name}_$it"))
     }
+    add(CommonDropPresets.slabDrop("$ns:${name}_slab"))
     // Block Tags
     TagManager.add("blocks/stairs", "$ns:${name}_stairs")
     TagManager.add("blocks/mineable/pickaxe", "$ns:${name}_stairs", "$ns:${name}$baseSuffix")
@@ -186,5 +188,20 @@ object BlockSets {
     listOf("stone_pressure_plates", "buttons").forEach {
       TagManager.copy("blocks/${it}", "items/${it}")
     }
+  }
+
+  fun basicSet(id: String, baseSuffix: String = "") = Preset {
+    val (ns, name) = Id(id)
+    // Models
+    add(CommonModelPresets.cubeAllBlock("$ns:${name}$baseSuffix"))
+    add(CommonModelPresets.stairsBlock(id, "$ns:${name}$baseSuffix"))
+    add(CommonModelPresets.slabBlock(id, "$ns:${name}$baseSuffix", "$ns:${name}$baseSuffix"))
+    // Recipes
+    add(CommonRecipePresets.slab("$ns:${name}$baseSuffix", "$ns:${name}_slab"))
+    add(CommonRecipePresets.stairs("$ns:${name}$baseSuffix", "$ns:${name}_stairs"))
+    // Block Drops
+    add(CommonDropPresets.slabDrop("$ns:${name}_slab"))
+    add(CommonDropPresets.simpleDrop("$ns:${name}_stairs"))
+    // Block Tags
   }
 }

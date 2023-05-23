@@ -8,10 +8,11 @@ import tada.lib.resources.model.ParentedModel
 import tada.lib.util.Id
 
 object CommonModelPresets {
-  fun itemBlockModel(id: String): Preset {
-    val (ns, name) = Id(id)
+  fun itemBlockModel(id: String, blockId: String = id): Preset {
+    val (_, name) = Id(id)
+    val (bNs, bName) = Id(blockId)
     return Preset {
-      add(name, ParentedModel.item("$ns:block/$name"))
+      add(name, ParentedModel.item("$bNs:block/$bName"))
     }
   }
 
@@ -54,6 +55,18 @@ object CommonModelPresets {
     add(name, ParentedModel.block("block/cross")
       .texture("cross", "$ns:block/$name"))
     add(generatedItemModel("$ns:${name}_sapling", "block"))
+  }
+
+  fun horizontallyRotateableBlock(id: String, modelId: String = id) = Preset {
+    val (_, name) = Id(id)
+    val (mNs, mName) = Id(modelId)
+    add(name, BlockState.create {
+      variant("facing=north", BlockStateModel("$mNs:block/$mName", yRot = Rotation.NONE))
+      variant("facing=east", BlockStateModel("$mNs:block/$mName", yRot = Rotation.CW_90))
+      variant("facing=south", BlockStateModel("$mNs:block/$mName", yRot = Rotation.CW_180))
+      variant("facing=west", BlockStateModel("$mNs:block/$mName", yRot = Rotation.CW_270))
+    })
+    add(itemBlockModel(id, modelId))
   }
 
   fun stairsBlock(id: String, top: String = id, side: String = top, bottom: String = top): Preset {

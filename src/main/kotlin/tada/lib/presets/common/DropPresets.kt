@@ -33,4 +33,14 @@ object CommonDropPresets {
       add(name, HardcodedDrops.doorDrop(id))
     }
   }
+
+  fun slabDrop(id: String) = Preset {
+    val (_, name) = Id(id)
+    add(name, HardcodedDrops.slabDrop(id))
+  }
+
+  fun leavesDrop(id: String, saplingId: String? = null) = Preset {
+    val (_, name) = Id(id)
+    add(name, HardcodedDrops.leavesDrop(id, saplingId))
+  }
 }

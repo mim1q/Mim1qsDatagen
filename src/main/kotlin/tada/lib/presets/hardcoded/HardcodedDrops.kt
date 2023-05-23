@@ -33,7 +33,7 @@ internal object HardcodedDrops {
 
   private fun entry(
     name: String? = null,
-    conditionsSetup: (JsonArray.() -> Unit)? = null,
+    conditionsSetup: (JsonArray.() -> Unit) = { },
     functionsSetup: (JsonArray.() -> Unit)? = null,
     setup:  JsonObject.() -> Unit = { },
     type: String = "minecraft:item"
@@ -43,9 +43,11 @@ internal object HardcodedDrops {
       if (name != null) {
         addProperty("name", Id(name).toString())
       }
-      if (conditionsSetup != null) {
-        add("conditions", JsonArray().apply(conditionsSetup))
-      }
+      add("conditions", JsonArray().apply(conditionsSetup).apply {
+        add(JsonObject().apply {
+          addProperty("condition", "minecraft:survives_explosion")
+        })
+      })
       if (functionsSetup != null) {
         add("functions", JsonArray().apply(functionsSetup))
       }
@@ -62,6 +64,23 @@ internal object HardcodedDrops {
             addProperty("levels", 1)
           })
         })
+      })
+    }
+  }
+
+  private fun silkTouchOrShearsCondition(): JsonElement {
+    return JsonObject().apply {
+      addProperty("condition", "minecraft:alternative")
+      add("terms", JsonArray().apply {
+        add(JsonObject().apply {
+          addProperty("condition", "minecraft:match_tool")
+          add("predicate", JsonObject().apply {
+            add("items", JsonArray().apply {
+              add("minecraft:shears")
+            })
+          })
+        })
+        add(silkTouchCondition())
       })
     }
   }
@@ -108,6 +127,73 @@ internal object HardcodedDrops {
             addProperty("condition", "minecraft:block_state_property")
             add("properties", JsonObject().apply {
               addProperty("half", "lower")
+            })
+          })
+        }))
+      })
+    }
+  }
+
+  fun slabDrop(id: String): JsonResource {
+    return jsonDrop {
+      add(pool(IntProvider.constant(1)){
+        add(entry(id, functionsSetup = {
+          add(JsonObject().apply {
+            addProperty("function", "minecraft:set_count")
+            addProperty("count", 2)
+            addProperty("add", false)
+            add("conditions", JsonArray().apply {
+              add(JsonObject().apply {
+                addProperty("block", Id(id).toString())
+                addProperty("condition", "minecraft:block_state_property")
+                add("properties", JsonObject().apply {
+                  addProperty("type", "double")
+                })
+              })
+            })
+          })
+        }))
+      })
+    }
+  }
+
+  fun leavesDrop(id: String, saplingId: String?): JsonResource {
+    return jsonDrop {
+      add(pool(IntProvider.constant(1)) {
+        add(JsonObject().apply {
+          addProperty("type", "minecraft:alternatives")
+          add("children", JsonArray().apply {
+            add(entry(Id(id).toString(), conditionsSetup = {
+              add(silkTouchOrShearsCondition())
+            }))
+            if (saplingId != null) {
+              add(entry(Id(saplingId).toString(), conditionsSetup = {
+                add(JsonObject().apply {
+                  addProperty("condition", "minecraft:table_bonus")
+                  addProperty("enchantment", "minecraft:fortune")
+                  add("chances", JsonArray().apply {
+                    add(0.05)
+                    add(0.0625)
+                    add(0.0833)
+                    add(0.1)
+                  })
+                })
+              }))
+            }
+          })
+        })
+      })
+      add(pool(IntProvider.constant(1)) {
+        add(entry("minecraft:stick", conditionsSetup = {
+          add(JsonObject().apply {
+            addProperty("condition", "minecraft:table_bonus")
+            addProperty("enchantment", "minecraft:fortune")
+            add("chances", JsonArray().apply {
+              add(0.02)
+              add(0.0222)
+              add(0.025)
+              add(0.033)
+              add(0.1)
             })
           })
         }))
