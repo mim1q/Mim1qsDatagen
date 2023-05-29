@@ -15,7 +15,7 @@ import java.nio.file.Path
  * @param jsonFormatter provides a String formatting strategy for JSON data
  */
 open class ResourceGenerator(
-  private val namespace: String,
+  internal val namespace: String,
   private val baseDirectory: Path,
   private val fileSaver: FileSaver,
   private val jsonFormatter: JsonFormatter
@@ -25,7 +25,7 @@ open class ResourceGenerator(
   /**
    * List of the provided [MinecraftResource]s with their respective [String] names
    */
-  private val entries: MutableList<GeneratorEntry> = mutableListOf()
+  internal val entries: MutableList<GeneratorEntry> = mutableListOf()
 
   /**
    * Add a resource to the generator
