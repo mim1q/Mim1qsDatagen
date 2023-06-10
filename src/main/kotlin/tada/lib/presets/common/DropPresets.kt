@@ -27,6 +27,13 @@ object CommonDropPresets {
     }
   }
 
+  fun silkTouchOrShearsOnlyDrop(id: String): Preset {
+    val (_, name) = Id(id)
+    return Preset {
+      add(name, HardcodedDrops.silkTouchOrShearsOnlyDrop(id))
+    }
+  }
+
   fun doorDrop(id: String): Preset {
     val (_, name) = Id(id)
     return Preset {

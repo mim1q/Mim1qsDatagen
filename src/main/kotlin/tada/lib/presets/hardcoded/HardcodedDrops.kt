@@ -116,6 +116,16 @@ internal object HardcodedDrops {
     }
   }
 
+  fun silkTouchOrShearsOnlyDrop(id: String): JsonResource {
+    return jsonDrop {
+      add(pool(IntProvider.constant(1))  {
+        add(entry(id, conditionsSetup = {
+          add(silkTouchOrShearsCondition())
+        }))
+      })
+    }
+  }
+
   fun doorDrop(id: String): JsonResource {
     return jsonDrop {
       add(pool(IntProvider.constant(1)) {

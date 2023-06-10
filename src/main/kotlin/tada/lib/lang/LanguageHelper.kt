@@ -43,7 +43,9 @@ class LanguageHelper(
     if (!file.toFile().exists()) {
       throw IllegalStateException("Language file $file does not exist")
     }
-    return JsonParser.parseReader(file.toFile().reader()).asJsonObject.entrySet().map { it.key to it.value.asString }
+    return JsonParser.parseReader(file.toFile().reader()).asJsonObject.entrySet().map {
+      it.key to if (it.value.isJsonPrimitive) it.value.asString else ""
+    }
   }
 
   private fun getMissingEntries(entries: List<Pair<String, String>>, base: List<Pair<String, String>>): List<Pair<String, String>> {
