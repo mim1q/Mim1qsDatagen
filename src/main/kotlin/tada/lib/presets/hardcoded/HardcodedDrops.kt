@@ -3,6 +3,7 @@ package tada.lib.presets.hardcoded
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import tada.lib.util.Id
 import tada.lib.util.IntProvider
 
@@ -19,6 +20,14 @@ internal object HardcodedDrops {
         addProperty("type", "minecraft:block")
         add("pools", JsonArray().apply(poolsSetup))
       },
+      "loot_tables/blocks",
+      "data"
+    )
+  }
+
+  private fun jsonStringDrop(text: String): JsonResource {
+    return JsonResource(
+      JsonParser.parseString(text).asJsonObject,
       "loot_tables/blocks",
       "data"
     )
@@ -68,7 +77,7 @@ internal object HardcodedDrops {
 
   private fun silkTouchOrShearsCondition(): JsonElement {
     return JsonObject().apply {
-      addProperty("condition", "minecraft:alternative")
+      addProperty("condition", "minecraft:any_of")
       add("terms", JsonArray().apply {
         add(JsonObject().apply {
           addProperty("condition", "minecraft:match_tool")
@@ -94,7 +103,7 @@ internal object HardcodedDrops {
   fun silkTouchDrop(id: String, silkTouchId: String): JsonResource {
     return jsonDrop {
       add(pool(IntProvider.constant(1)) {
-        add(entry(type = "minecraft:alternatives", setup = {
+        add(entry(type = "minecraft:any_of", setup = {
           add("children", JsonArray().apply {
             add(entry(silkTouchId, conditionsSetup = {
               add(silkTouchCondition())
@@ -166,46 +175,98 @@ internal object HardcodedDrops {
   }
 
   fun leavesDrop(id: String, saplingId: String?): JsonResource {
-    return jsonDrop {
-      add(pool(IntProvider.constant(1)) {
-        add(JsonObject().apply {
-          addProperty("type", "minecraft:alternatives")
-          add("children", JsonArray().apply {
-            add(entry(Id(id).toString(), conditionsSetup = {
-              add(silkTouchOrShearsCondition())
-            }))
-            if (saplingId != null) {
-              add(entry(Id(saplingId).toString(), conditionsSetup = {
-                add(JsonObject().apply {
-                  addProperty("condition", "minecraft:table_bonus")
-                  addProperty("enchantment", "minecraft:fortune")
-                  add("chances", JsonArray().apply {
-                    add(0.05)
-                    add(0.0625)
-                    add(0.0833)
-                    add(0.1)
-                  })
-                })
-              }))
+    val saplingDrop = if (saplingId == null) "" else """,
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                { "condition": "minecraft:survives_explosion" },
+                { "chances": [ 0.05, 0.0625, 0.083333336, 0.1 ],
+                  "condition": "minecraft:table_bonus",
+                  "enchantment": "minecraft:fortune" }
+              ],
+              "name": "$saplingId"
+            }"""
+    return jsonStringDrop(
+      """
+        {
+          "type": "minecraft:block",
+          "pools": [
+            {
+              "bonus_rolls": 0.0,
+              "entries": [
+                {
+                  "type": "minecraft:any_of",
+                  "children": [
+                    {
+                      "type": "minecraft:item",
+                      "conditions": [
+                        {
+                          "condition": "minecraft:any_of",
+                          "terms": [
+                            { "condition": "minecraft:match_tool", "predicate": { "items": ["minecraft:shears"] } },
+                            {
+                              "condition": "minecraft:match_tool",
+                              "predicate": { "enchantments": [{ "enchantment": "minecraft:silk_touch", "levels": { "min": 1 }}]}
+                            }
+                          ]
+                        }
+                      ],
+                      "name": "$id"
+                    }$saplingDrop
+                  ]
+                }
+              ],
+              "rolls": 1.0
+            },
+            {
+              "bonus_rolls": 0.0,
+              "conditions": [
+                {
+                  "condition": "minecraft:inverted",
+                  "term": {
+                    "condition": "minecraft:any_of",
+                    "terms": [
+                      { "condition": "minecraft:match_tool", "predicate": { "items": [ "minecraft:shears" ] } },
+                      {
+                        "condition": "minecraft:match_tool",
+                        "predicate": { "enchantments": [ { "enchantment": "minecraft:silk_touch", "levels": { "min": 1 } }] }
+                      }
+                    ]
+                  }
+                }
+              ],
+              "entries": [
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "chances": [0.02, 0.022222223, 0.025, 0.033333335, 0.1],
+                      "condition": "minecraft:table_bonus",
+                      "enchantment": "minecraft:fortune"
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "add": false,
+                      "count": {
+                        "type": "minecraft:uniform",
+                        "max": 2.0,
+                        "min": 1.0
+                      },
+                      "function": "minecraft:set_count"
+                    },
+                    {
+                      "function": "minecraft:explosion_decay"
+                    }
+                  ],
+                  "name": "minecraft:stick"
+                }
+              ],
+              "rolls": 1.0
             }
-          })
-        })
-      })
-      add(pool(IntProvider.constant(1)) {
-        add(entry("minecraft:stick", conditionsSetup = {
-          add(JsonObject().apply {
-            addProperty("condition", "minecraft:table_bonus")
-            addProperty("enchantment", "minecraft:fortune")
-            add("chances", JsonArray().apply {
-              add(0.02)
-              add(0.0222)
-              add(0.025)
-              add(0.033)
-              add(0.1)
-            })
-          })
-        }))
-      })
-    }
+          ]
+        }
+      """.trimIndent()
+    )
   }
 }

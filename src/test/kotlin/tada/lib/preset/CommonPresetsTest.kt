@@ -39,7 +39,7 @@ class CommonPresetsTest {
               "rolls": 1,
               "entries": [
                 {
-                  "type": "minecraft:alternatives",
+                  "type": "minecraft:any_of",
                   "children": [
                     {
                       "type": "minecraft:item",
