@@ -1,6 +1,5 @@
 package tada.lib.resources.blockstate
 
-import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 
 /**
@@ -12,7 +11,7 @@ import com.google.gson.JsonObject
  *
  * @see <a href="https://minecraft.fandom.com/wiki/Tutorials/Models#Block_states">Minecraft Wiki for Block States</a
  */
-class VariantBlockState internal constructor() : BlockState {
+class VariantBlockState internal constructor() : BlockState() {
   /**
    * List of all the variants of this Block State
    */
@@ -50,7 +49,7 @@ class VariantBlockState internal constructor() : BlockState {
   /**
    * @throws IllegalArgumentException if no variants have been provided
    */
-  override fun generate(): JsonElement {
+  override fun generate(): JsonObject {
     if (variants.isEmpty()) throw IllegalStateException("No variants have been provided")
     return JsonObject().apply {
       add("variants", JsonObject().apply {

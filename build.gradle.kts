@@ -48,3 +48,13 @@ publishing {
     }
   }
 }
+
+java {
+  withSourcesJar()
+}
+
+tasks {
+  withType<Jar> {
+    from(sourceSets.main.get().allSource)
+  }
+}

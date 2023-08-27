@@ -1,8 +1,8 @@
 package tada.lib.resources.blockstate
 
 import com.google.gson.JsonArray
-import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import tada.lib.resources.blockstate.MultipartBlockState.Entry.ConditionType
 
 /**
  * "Multipart" type of Block State. Each model is applied under certain conditions, provided in the following string
@@ -18,7 +18,7 @@ import com.google.gson.JsonObject
  *
  * @see <a href="https://minecraft.fandom.com/wiki/Tutorials/Models#Block_states">Minecraft Wiki for Block States</a
  */
-class MultipartBlockState internal constructor() : BlockState {
+class MultipartBlockState internal constructor() : BlockState() {
   private val entries = mutableListOf<Entry>()
 
   /**
@@ -83,7 +83,7 @@ class MultipartBlockState internal constructor() : BlockState {
   /**
    * @throws IllegalArgumentException if no entries have been provided
    */
-  override fun generate(): JsonElement {
+  override fun generate(): JsonObject {
     if (entries.isEmpty()) throw IllegalStateException("No entries have been provided")
     return JsonObject().apply {
       add("multipart", JsonArray().apply {

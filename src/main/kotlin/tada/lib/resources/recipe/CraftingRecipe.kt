@@ -11,7 +11,7 @@ sealed class CraftingRecipe private constructor(
   type: Id,
   private val result: Id,
   private val count: Int
-) : Recipe (type) {
+) : Recipe(type) {
   protected fun generateResult(): JsonObject {
     return JsonObject().apply {
       addProperty("item", result.toString())

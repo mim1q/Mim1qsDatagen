@@ -1,6 +1,5 @@
 package tada.lib.resources.recipe
 
-import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import tada.lib.resources.MinecraftResource
 import tada.lib.util.Id
@@ -13,8 +12,8 @@ import java.nio.file.Path
  */
 abstract class Recipe(
   private val type: Id
-) : MinecraftResource {
-  override fun generate(): JsonElement {
+) : MinecraftResource() {
+  override fun generate(): JsonObject {
     return JsonObject().apply {
       addProperty("type", type.toString())
     }.apply { addData(this) }

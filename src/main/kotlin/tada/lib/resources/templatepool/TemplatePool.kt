@@ -10,7 +10,7 @@ import java.nio.file.Path
  * Class representing a template pool.
  * Primarily used in Jigsaw structures, for determining which structures should be placed.
  */
-class TemplatePool internal constructor(private val name: String, private val fallback: String) : MinecraftResource {
+class TemplatePool internal constructor(private val name: String, private val fallback: String) : MinecraftResource() {
   private val elements = mutableListOf<Pair<Int, Element>>()
 
   private fun element(element: Element, weight: Int = 1) {

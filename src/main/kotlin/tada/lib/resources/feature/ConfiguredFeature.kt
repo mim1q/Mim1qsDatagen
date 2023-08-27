@@ -1,11 +1,11 @@
 package tada.lib.resources.feature
 
-import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import tada.lib.resources.MinecraftResource
 import java.nio.file.Path
 
-class ConfiguredFeature : MinecraftResource {
-  override fun generate(): JsonElement {
+class ConfiguredFeature : MinecraftResource() {
+  override fun generate(): JsonObject {
     TODO("Not yet implemented")
   }
 

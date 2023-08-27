@@ -1,6 +1,5 @@
 package tada.lib.resources.model
 
-import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import tada.lib.resources.MinecraftResource
 import tada.lib.resources.model.ParentedModel.Type
@@ -16,7 +15,7 @@ import java.nio.file.Path
 class ParentedModel internal constructor(
   private val type: Type,
   private val parent: String
-) : MinecraftResource {
+) : MinecraftResource() {
   /**
    * Map of the texture overrides for this model, where each key is the name and the value is the texture path
    */
@@ -44,7 +43,7 @@ class ParentedModel internal constructor(
     return texture("texture", texture)
   }
 
-  override fun generate(): JsonElement {
+  override fun generate(): JsonObject {
     return JsonObject().apply {
       if (parent.isNotEmpty()) {
         addProperty("parent", Id(parent).toString())

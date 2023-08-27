@@ -52,7 +52,7 @@ open class ResourceGenerator(
   private fun generateResource(name: String, resource: MinecraftResource) {
     val filename = if (name.contains('.')) name else "$name.json"
     val filePath = resource.getDefaultOutputDirectory(baseDirectory, namespace).resolve(filename)
-    fileSaver.save(filePath, jsonFormatter.format(resource.generate()))
+    fileSaver.save(filePath, jsonFormatter.format(resource.postProcessAndGenerate()))
   }
 
   /**
