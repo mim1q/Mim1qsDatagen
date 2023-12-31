@@ -68,11 +68,11 @@ object BlockSets {
       key("P", "$ns:${name}_planks")
       key("S", "stick")
     })
-    add("${name}_door", CraftingRecipe.shaped("$ns:${name}_door") {
+    add("${name}_door", CraftingRecipe.shaped("$ns:${name}_door", 3) {
       pattern("PP", "PP", "PP")
       key("P", "$ns:${name}_planks")
     })
-    add("${name}_trapdoor", CraftingRecipe.shaped("$ns:${name}_trapdoor") {
+    add("${name}_trapdoor", CraftingRecipe.shaped("$ns:${name}_trapdoor", 2) {
       pattern("PPP", "PPP")
       key("P", "$ns:${name}_planks")
     })
@@ -81,7 +81,7 @@ object BlockSets {
       pattern("PP")
       key("P", "$ns:${name}_planks")
     })
-    add("${name}_sign", CraftingRecipe.shaped("$ns:${name}_sign") {
+    add("${name}_sign", CraftingRecipe.shaped("$ns:${name}_sign", 3) {
       pattern("PPP", "PPP", " S ")
       key("P", "$ns:${name}_planks")
       key("S", "stick")
@@ -133,7 +133,7 @@ object BlockSets {
     // Recipes
     add(CommonRecipePresets.slab("$ns:${name}$baseSuffix", "$ns:${name}_slab"))
     add(CommonRecipePresets.stairs("$ns:${name}$baseSuffix", "$ns:${name}_stairs"))
-    add("${name}_wall", CraftingRecipe.shaped("$ns:${name}_wall", 3) {
+    add("${name}_wall", CraftingRecipe.shaped("$ns:${name}_wall", 6) {
       pattern("XXX", "XXX")
       key("X", "$ns:${name}$baseSuffix")
     })
@@ -200,6 +200,7 @@ object BlockSets {
     add(CommonRecipePresets.slab("$ns:${name}$baseSuffix", "$ns:${name}_slab"))
     add(CommonRecipePresets.stairs("$ns:${name}$baseSuffix", "$ns:${name}_stairs"))
     // Block Drops
+    add(CommonDropPresets.simpleDrop("$ns:${name}$baseSuffix"))
     add(CommonDropPresets.slabDrop("$ns:${name}_slab"))
     add(CommonDropPresets.simpleDrop("$ns:${name}_stairs"))
     // Block Tags

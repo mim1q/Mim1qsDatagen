@@ -103,7 +103,7 @@ internal object HardcodedDrops {
   fun silkTouchDrop(id: String, silkTouchId: String): JsonResource {
     return jsonDrop {
       add(pool(IntProvider.constant(1)) {
-        add(entry(type = "minecraft:any_of", setup = {
+        add(entry(type = "minecraft:alternatives", setup = {
           add("children", JsonArray().apply {
             add(entry(silkTouchId, conditionsSetup = {
               add(silkTouchCondition())
@@ -195,7 +195,7 @@ internal object HardcodedDrops {
               "bonus_rolls": 0.0,
               "entries": [
                 {
-                  "type": "minecraft:any_of",
+                  "type": "minecraft:alternatives",
                   "children": [
                     {
                       "type": "minecraft:item",

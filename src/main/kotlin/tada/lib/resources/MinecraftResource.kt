@@ -15,7 +15,7 @@ abstract class MinecraftResource {
    *
    * @return the generated JSON representation of the data
    */
-  internal abstract fun generate(): JsonObject
+  abstract fun generate(): JsonObject
 
   /**
    * Returns the output path of the given data type
