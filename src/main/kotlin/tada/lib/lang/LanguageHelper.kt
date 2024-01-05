@@ -1,6 +1,7 @@
 package tada.lib.lang
 
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import tada.lib.generator.BeautifiedJsonFormatter
@@ -38,17 +39,15 @@ class LanguageHelper(
     writeLangEntries(helperDirectoryPath.resolve("generated/generated_block_names.json"), generator)
   }
 
-  private fun getLangEntriesFromFile(languageCode: String): List<Pair<String, String>> {
+  private fun getLangEntriesFromFile(languageCode: String): LangEntryList {
     val file = langDirectoryPath.resolve("$languageCode.json")
     if (!file.toFile().exists()) {
       throw IllegalStateException("Language file $file does not exist")
     }
-    return JsonParser.parseReader(file.toFile().reader()).asJsonObject.entrySet().map {
-      it.key to if (it.value.isJsonPrimitive) it.value.asString else ""
-    }
+    return JsonParser.parseReader(file.toFile().reader()).asJsonObject.entrySet().map { it.key to it.value }
   }
 
-  private fun getMissingEntries(entries: List<Pair<String, String>>, base: List<Pair<String, String>>): List<Pair<String, String>> {
+  private fun getMissingEntries(entries: LangEntryList, base: LangEntryList): LangEntryList {
     return base.filter { !(
       entries.map { e -> e.first }.contains(it.first)
       || it.first.startsWith("_")
@@ -63,7 +62,7 @@ class LanguageHelper(
     getLanguageCodes()?.filter { it != baseLanguage }?.forEach {
       val entries = getMissingEntries(getLangEntriesFromFile(it), base)
       val jsonObject = JsonObject().apply {
-        entries.forEach { e -> addProperty(e.first, e.second) }
+        entries.forEach { e -> add(e.first, e.second) }
       }
       fileSaver.save(helperDirectoryPath.resolve("$it.json"), gson.toJson(jsonObject))
     }
@@ -74,3 +73,5 @@ class LanguageHelper(
       LanguageHelper(langDir, helperDir, FilesystemFileSaver, BeautifiedJsonFormatter).apply(setup)
   }
 }
+
+typealias LangEntryList = List<Pair<String, JsonElement>>
