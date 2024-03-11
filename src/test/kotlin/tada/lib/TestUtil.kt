@@ -14,4 +14,11 @@ object TestUtil {
       gson.toJson(actual)
     )
   }
+
+  fun assertJsonEquals(expected: JsonElement, actual: JsonElement) {
+    assertEquals(
+      gson.toJson(expected),
+      gson.toJson(actual)
+    )
+  }
 }

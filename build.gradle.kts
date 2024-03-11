@@ -25,7 +25,8 @@ dependencies {
   // Align versions of all Kotlin components
   implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
 
-  // GSON for JSON file handling
+  // GSON and Jankson for JSON file handling
+  implementation("blue.endless:jankson:1.2.3")
   implementation("com.google.code.gson:gson:2.10.1")
 
   // Use JUnit Jupiter for testing.
