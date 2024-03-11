@@ -10,7 +10,8 @@ import java.nio.file.Path
 class FlattenedJson(
   private val location: String,
   private val json: JsonObject,
-  private val folder: String = "assets"
+  private val folder: String = "assets",
+  private val separator: String = "."
 ) : MinecraftResource() {
 
   public constructor(file: File, location: String, folder: String) : this(
@@ -25,19 +26,19 @@ class FlattenedJson(
   )
 
 
-  override fun generate(): JsonObject = flatten(json)
+  override fun generate(): JsonObject = flatten(json, separator)
 
   override fun getDefaultOutputDirectory(baseDir: Path, namespace: String): Path =
     baseDir.resolve("$folder/$namespace/$location")
 }
 
-internal fun flatten(json: JsonObject): JsonObject {
+internal fun flatten(json: JsonObject, separator: String = "."): JsonObject {
   val result = JsonObject()
   json.entrySet().forEach { entry ->
     if (entry.value.isJsonObject) {
       val flattened = flatten(entry.value.asJsonObject)
       flattened.entrySet().forEach {
-        result.add("${entry.key}${it.key}", it.value)
+        result.add("${entry.key}${separator}${it.key}", it.value)
       }
     } else {
       result.add(entry.key, entry.value)

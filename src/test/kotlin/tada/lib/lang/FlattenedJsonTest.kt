@@ -24,6 +24,6 @@ internal class FlattenedJsonTest {
       "second" to 16
     }
 
-    assertJsonEquals(expected, flatten(toBeFlattened))
+    assertJsonEquals(expected, flatten(toBeFlattened, separator = ""))
   }
 }
