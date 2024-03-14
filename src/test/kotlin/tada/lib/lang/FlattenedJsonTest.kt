@@ -26,4 +26,44 @@ internal class FlattenedJsonTest {
 
     assertJsonEquals(expected, flatten(toBeFlattened, separator = ""))
   }
+
+  @Test fun `flattened semicolon-separated json generates correctly`() {
+    val toBeFlattened = json {
+      "test;test2;test3" {
+        "a" to 5
+        "b" to "abc"
+      }
+      "test.c" to 10
+    }
+
+    val expected = json {
+      "test.a" to 5
+      "test.b" to "abc"
+      "test.c" to 10
+
+      "test2.a" to 5
+      "test2.b" to "abc"
+
+      "test3.a" to 5
+      "test3.b" to "abc"
+    }
+
+    assertJsonEquals(expected, flatten(toBeFlattened))
+  }
+
+  @Test fun `empty string doesn't append a separator`() {
+    val toBeFlattened = json {
+      "test" {
+        "" to 5
+        "b" to "abc"
+      }
+    }
+
+    val expected = json {
+      "test" to 5
+      "test.b" to "abc"
+    }
+
+    assertJsonEquals(expected, flatten(toBeFlattened))
+  }
 }

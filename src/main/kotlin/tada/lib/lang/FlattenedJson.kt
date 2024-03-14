@@ -35,13 +35,17 @@ class FlattenedJson(
 internal fun flatten(json: JsonObject, separator: String = "."): JsonObject {
   val result = JsonObject()
   json.entrySet().forEach { entry ->
-    if (entry.value.isJsonObject) {
-      val flattened = flatten(entry.value.asJsonObject)
-      flattened.entrySet().forEach {
-        result.add("${entry.key}${separator}${it.key}", it.value)
+    val keys = entry.key.split(';')
+    keys.forEach { key ->
+      if (entry.value.isJsonObject) {
+        val flattened = flatten(entry.value.asJsonObject, separator)
+        flattened.entrySet().forEach {
+          val currentSeparator = if (it.key.isBlank()) "" else separator
+          result.add("${key}${currentSeparator}${it.key}", it.value)
+        }
+      } else {
+        result.add(key, entry.value)
       }
-    } else {
-      result.add(entry.key, entry.value)
     }
   }
   return result

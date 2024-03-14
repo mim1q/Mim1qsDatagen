@@ -17,8 +17,8 @@ object TestUtil {
 
   fun assertJsonEquals(expected: JsonElement, actual: JsonElement) {
     assertEquals(
-      gson.toJson(expected),
-      gson.toJson(actual)
+      expected,
+      actual
     )
   }
 }
