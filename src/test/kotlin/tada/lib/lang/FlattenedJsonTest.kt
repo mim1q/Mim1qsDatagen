@@ -66,4 +66,28 @@ internal class FlattenedJsonTest {
 
     assertJsonEquals(expected, flatten(toBeFlattened))
   }
+
+  @Test fun `flattening json with $ slot`() {
+    val toBeFlattened = json {
+      "testing_\$_value" {
+        "a" to 5
+        "b" to "abc"
+      }
+      "\$_begin" {
+        "c" to 10
+      }
+      "end_\$" {
+        "d" to 15
+      }
+    }
+
+    val expected = json {
+      "testing_a_value" to 5
+      "testing_b_value" to "abc"
+      "c_begin" to 10
+      "end_d" to 15
+    }
+
+    assertJsonEquals(expected, flatten(toBeFlattened))
+  }
 }

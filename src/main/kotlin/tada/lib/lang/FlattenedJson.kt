@@ -41,7 +41,7 @@ internal fun flatten(json: JsonObject, separator: String = "."): JsonObject {
         val flattened = flatten(entry.value.asJsonObject, separator)
         flattened.entrySet().forEach {
           val currentSeparator = if (it.key.isBlank()) "" else separator
-          result.add("${key}${currentSeparator}${it.key}", it.value)
+          result.add(applyFlattening(key, it.key, currentSeparator), it.value)
         }
       } else {
         result.add(key, entry.value)
@@ -49,4 +49,13 @@ internal fun flatten(json: JsonObject, separator: String = "."): JsonObject {
     }
   }
   return result
+}
+
+private fun applyFlattening(parent: String, child: String, separator: String): String {
+  val slot = parent.indexOfFirst { it == '$' }
+  return if (slot == -1) {
+    "$parent$separator$child"
+  } else {
+    parent.substring(0, slot) + child + parent.substring(slot + 1)
+  }
 }
