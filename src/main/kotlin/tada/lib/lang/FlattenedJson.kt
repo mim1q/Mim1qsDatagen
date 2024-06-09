@@ -1,11 +1,14 @@
 package tada.lib.lang
 
 import blue.endless.jankson.Jankson
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
+import com.google.gson.JsonPrimitive
 import tada.lib.resources.MinecraftResource
 import java.io.File
 import java.nio.file.Path
+import java.util.*
 
 class FlattenedJson(
   private val location: String,
@@ -14,7 +17,7 @@ class FlattenedJson(
   private val separator: String = "."
 ) : MinecraftResource() {
 
-  public constructor(file: File, location: String, folder: String) : this(
+  constructor(file: File, location: String, folder: String) : this(
     location,
     file.let {
       val jankson = Jankson.builder().build()
@@ -41,21 +44,33 @@ internal fun flatten(json: JsonObject, separator: String = "."): JsonObject {
         val flattened = flatten(entry.value.asJsonObject, separator)
         flattened.entrySet().forEach {
           val currentSeparator = if (it.key.isBlank()) "" else separator
-          result.add(applyFlattening(key, it.key, currentSeparator), it.value)
+          val newKey = applyKeyFlattening(key, it.key, currentSeparator)
+          result.add(newKey, applyValueFlattening(it.value, newKey))
         }
       } else {
-        result.add(key, entry.value)
+        result.add(key, applyValueFlattening(entry.value, key))
       }
     }
   }
   return result
 }
 
-private fun applyFlattening(parent: String, child: String, separator: String): String {
+private fun applyKeyFlattening(parent: String, child: String, separator: String): String {
   val slot = parent.indexOfFirst { it == '$' }
   return if (slot == -1) {
     "$parent$separator$child"
   } else {
     parent.substring(0, slot) + child + parent.substring(slot + 1)
+  }
+}
+
+private fun applyValueFlattening(value: JsonElement, key: String): JsonElement {
+  if (value is JsonPrimitive && value.isString && value.asString == "%") {
+    val result = key
+      .replace('_', ' ')
+      .replace(Regex("(\\b)([a-z])")) { it.groupValues[1] + it.groupValues[2].uppercase(Locale.ENGLISH) }
+    return JsonPrimitive(result)
+  } else {
+    return value
   }
 }

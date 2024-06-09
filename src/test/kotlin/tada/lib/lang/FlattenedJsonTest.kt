@@ -5,7 +5,8 @@ import tada.lib.TestUtil.assertJsonEquals
 import tada.lib.util.json
 
 internal class FlattenedJsonTest {
-  @Test fun `flattened json generates the correct json`() {
+  @Test
+  fun `flattened json generates the correct json`() {
     val toBeFlattened = json {
       "test." {
         "one_" {
@@ -27,7 +28,8 @@ internal class FlattenedJsonTest {
     assertJsonEquals(expected, flatten(toBeFlattened, separator = ""))
   }
 
-  @Test fun `flattened semicolon-separated json generates correctly`() {
+  @Test
+  fun `flattened semicolon-separated json generates correctly`() {
     val toBeFlattened = json {
       "test;test2;test3" {
         "a" to 5
@@ -51,7 +53,8 @@ internal class FlattenedJsonTest {
     assertJsonEquals(expected, flatten(toBeFlattened))
   }
 
-  @Test fun `empty string doesn't append a separator`() {
+  @Test
+  fun `empty string doesn't append a separator`() {
     val toBeFlattened = json {
       "test" {
         "" to 5
@@ -67,7 +70,8 @@ internal class FlattenedJsonTest {
     assertJsonEquals(expected, flatten(toBeFlattened))
   }
 
-  @Test fun `flattening json with $ slot`() {
+  @Test
+  fun `flattening json with $ slot`() {
     val toBeFlattened = json {
       "testing_\$_value" {
         "a" to 5
@@ -86,6 +90,28 @@ internal class FlattenedJsonTest {
       "testing_b_value" to "abc"
       "c_begin" to 10
       "end_d" to 15
+    }
+
+    assertJsonEquals(expected, flatten(toBeFlattened))
+  }
+
+  @Test
+  fun `automatic naming with percent slot`() {
+    val toBeFlattened = json {
+      "test" {
+        "abc_def" to "%"
+        "b" to "abc"
+      }
+      "test2" {
+        "abc_def;ghi_jkl" to "%"
+      }
+    }
+
+    val expected = json {
+      "test.abc_def" to "Abc Def"
+      "test.b" to "abc"
+      "test2.abc_def" to "Abc Def"
+      "test2.ghi_jkl" to "Ghi Jkl"
     }
 
     assertJsonEquals(expected, flatten(toBeFlattened))

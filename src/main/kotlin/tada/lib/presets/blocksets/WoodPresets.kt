@@ -110,12 +110,13 @@ object WoodPresets {
     }
   }
 
-  fun trapdoor(id: String): Preset {
+  fun trapdoor(id: String, textureId: String = "${id}_trapdoor"): Preset {
     val (ns, name) = Id(id)
+    val (tNs, tName) = Id(textureId)
     return Preset {
       add("${name}_trapdoor", ParentedModel.item("${ns}:block/${name}_trapdoor_bottom"))
       for (suffix in listOf("trapdoor_bottom", "trapdoor_open", "trapdoor_top")) {
-        add("${name}_$suffix", ParentedModel.block("block/template_orientable_$suffix").texture("$ns:block/${name}_trapdoor"))
+        add("${name}_$suffix", ParentedModel.block("block/template_orientable_$suffix").texture("$tNs:block/${tName}"))
       }
       add("${name}_trapdoor", BlockState.create {
         variant("facing=east,half=bottom,open=false", BlockStateModel("$ns:block/${name}_trapdoor_bottom", yRot = Rotation.CW_90))
