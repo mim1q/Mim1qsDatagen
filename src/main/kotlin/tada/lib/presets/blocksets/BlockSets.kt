@@ -86,6 +86,7 @@ object BlockSets {
       key("P", "$ns:${name}_planks")
       key("S", "stick")
     })
+    add(CommonRecipePresets.packed2x2("$ns:${name}_log", "$ns:${name}_wood"))
 
     // Block Drops
     listOf(
