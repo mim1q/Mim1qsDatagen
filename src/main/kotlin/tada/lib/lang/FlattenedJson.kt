@@ -1,7 +1,6 @@
 package tada.lib.lang
 
 import blue.endless.jankson.Jankson
-import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.google.gson.JsonPrimitive
@@ -36,24 +35,42 @@ class FlattenedJson(
 }
 
 internal fun flatten(json: JsonObject, separator: String = "."): JsonObject {
+  val result = innerFlatten(json, separator)
+  for (entry in result.entrySet()) {
+    val value = entry.value
+    if (value is JsonPrimitive && value.isString && value.asString == "%") {
+      val generatedValue = entry.key
+        .split(separator)
+        .last()
+        .replace('_', ' ')
+        .replace(Regex("(\\b)([a-z])")) { it.groupValues[1] + it.groupValues[2].uppercase(Locale.ENGLISH) }
+
+      entry.setValue(JsonPrimitive(generatedValue))
+    }
+  }
+  return result
+}
+
+private fun innerFlatten(json: JsonObject, separator: String = "."): JsonObject {
   val result = JsonObject()
   json.entrySet().forEach { entry ->
     val keys = entry.key.split(';')
     keys.forEach { key ->
       if (entry.value.isJsonObject) {
-        val flattened = flatten(entry.value.asJsonObject, separator)
+        val flattened = innerFlatten(entry.value.asJsonObject, separator)
         flattened.entrySet().forEach {
           val currentSeparator = if (it.key.isBlank()) "" else separator
           val newKey = applyKeyFlattening(key, it.key, currentSeparator)
-          result.add(newKey, applyValueFlattening(it.value, newKey))
+          result.add(newKey, it.value)
         }
       } else {
-        result.add(key, applyValueFlattening(entry.value, key))
+        result.add(key, entry.value)
       }
     }
   }
   return result
 }
+
 
 private fun applyKeyFlattening(parent: String, child: String, separator: String): String {
   val slot = parent.indexOfFirst { it == '$' }
@@ -64,13 +81,13 @@ private fun applyKeyFlattening(parent: String, child: String, separator: String)
   }
 }
 
-private fun applyValueFlattening(value: JsonElement, key: String): JsonElement {
-  if (value is JsonPrimitive && value.isString && value.asString == "%") {
-    val result = key
-      .replace('_', ' ')
-      .replace(Regex("(\\b)([a-z])")) { it.groupValues[1] + it.groupValues[2].uppercase(Locale.ENGLISH) }
-    return JsonPrimitive(result)
-  } else {
-    return value
-  }
-}
+//private fun applyValueFlattening(value: JsonElement, key: String): JsonElement {
+//  if (value is JsonPrimitive && value.isString && value.asString == "%") {
+//    val result = key
+//      .replace('_', ' ')
+//      .replace(Regex("(\\b)([a-z])")) { it.groupValues[1] + it.groupValues[2].uppercase(Locale.ENGLISH) }
+//    return JsonPrimitive(result)
+//  } else {
+//    return value
+//  }
+//}

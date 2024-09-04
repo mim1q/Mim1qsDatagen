@@ -105,6 +105,9 @@ internal class FlattenedJsonTest {
       "test2" {
         "abc_def;ghi_jkl" to "%"
       }
+      "$.test3" {
+        "abc_def" to "%"
+      }
     }
 
     val expected = json {
@@ -112,6 +115,7 @@ internal class FlattenedJsonTest {
       "test.b" to "abc"
       "test2.abc_def" to "Abc Def"
       "test2.ghi_jkl" to "Ghi Jkl"
+      "abc_def.test3" to "Test3"
     }
 
     assertJsonEquals(expected, flatten(toBeFlattened))

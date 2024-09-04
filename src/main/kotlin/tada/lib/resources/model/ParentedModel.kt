@@ -13,7 +13,7 @@ import java.nio.file.Path
  * @param parent the parent model
  */
 class ParentedModel internal constructor(
-  private val type: Type,
+  val type: Type,
   private val parent: String
 ) : MinecraftResource() {
   /**

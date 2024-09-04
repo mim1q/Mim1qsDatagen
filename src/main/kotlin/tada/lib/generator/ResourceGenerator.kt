@@ -1,9 +1,14 @@
 package tada.lib.generator
 
 import com.google.gson.JsonElement
-import tada.lib.resources.MinecraftResource
 import tada.lib.presets.Preset
+import tada.lib.resources.MinecraftResource
+import tada.lib.resources.blockstate.BlockState
+import tada.lib.resources.loottable.LootTable
+import tada.lib.resources.model.ParentedModel
+import tada.lib.resources.templatepool.TemplatePool
 import tada.lib.tags.TagManager
+import tada.lib.util.countByCriteria
 import java.nio.file.Path
 
 /**
@@ -20,7 +25,9 @@ open class ResourceGenerator(
   private val fileSaver: FileSaver,
   private val jsonFormatter: JsonFormatter
 ) {
-  init { TagManager.clear() }
+  init {
+    TagManager.clear()
+  }
 
   /**
    * List of the provided [MinecraftResource]s with their respective [String] names
@@ -67,6 +74,25 @@ open class ResourceGenerator(
     fileSaver.finish(baseDirectory)
   }
 
+  /**
+   * Prints information about the resources to be generated, and the generator itself
+   */
+  fun printInfo() {
+    println("Resources to be generated: ${entries.size}")
+    val resourcesByType = entries.map { it.resource }.countByCriteria(
+      "Block Models" to { (it as? ParentedModel)?.type == ParentedModel.Type.BLOCK },
+      "Item Models" to { (it as? ParentedModel)?.type == ParentedModel.Type.ITEM },
+      "Blockstate Definitions" to { it is BlockState },
+      "Loot Tables" to { it is LootTable },
+      "Template Pools" to { it is TemplatePool }
+    )
+
+    for ((name, count) in resourcesByType.first) {
+      println("\t$name: $count")
+    }
+    println("\tOther: ${resourcesByType.second}")
+  }
+
   companion object {
     /**
      * Creates a default [ResourceGenerator]
@@ -111,7 +137,7 @@ open class ResourceGenerator(
      *
      * @param baseDirectory path to the base directory of the generated pack
      */
-    fun finish(baseDirectory: Path) { }
+    fun finish(baseDirectory: Path) {}
   }
 
   /**
